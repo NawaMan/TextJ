@@ -4,8 +4,8 @@ import static java.lang.Math.ceil;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 import static java.util.stream.IntStream.rangeClosed;
-import static net.nawaman.codej.RuleTwoLine.bottomTwoLineRuler;
-import static net.nawaman.codej.RuleTwoLine.topTwoLineRuler;
+import static net.nawaman.codej.RulerTwoLine.bottomTwoLineRuler;
+import static net.nawaman.codej.RulerTwoLine.topTwoLineRuler;
 import static net.nawaman.codej.RulerOneLine.oneLineRuler;
 
 import java.util.ArrayList;
@@ -43,8 +43,8 @@ public class CodeSegmentVT100Formatter extends CodeSegmentFormatter {
                 "\u001B[103;1;3;200m"
             );
     
-    private final Ruler topRuler;
-    private final Ruler bottomRuler;
+    private final RulerGenerator topRuler;
+    private final RulerGenerator bottomRuler;
     
     public CodeSegmentVT100Formatter(Code code) {
         this(code, false);
@@ -66,7 +66,7 @@ public class CodeSegmentVT100Formatter extends CodeSegmentFormatter {
         var output = new StringBuilder();
         
         var prefix = "    |";
-        topRuler.createRuler(output, prefix, maxColumn);
+        topRuler.addRuler(output, prefix, maxColumn);
         
         output.append("\n");
         for (int i = firstLine; i <= lastLine; i++) {
@@ -86,7 +86,7 @@ public class CodeSegmentVT100Formatter extends CodeSegmentFormatter {
         }
         
         if ((lastLine - firstLine) >= 5) {
-            bottomRuler.createRuler(output, prefix, maxColumn);
+            bottomRuler.addRuler(output, prefix, maxColumn);
             output.append("\n");
         }
         return output;

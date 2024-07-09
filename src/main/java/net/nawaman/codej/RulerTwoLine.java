@@ -5,10 +5,13 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * Ruler generator with two lines.
  */
-public class RuleTwoLine implements Ruler {
-
-    public static final Ruler topTwoLineRuler    = new RuleTwoLine(true);
-    public static final Ruler bottomTwoLineRuler = new RuleTwoLine(false);
+public class RulerTwoLine implements RulerGenerator {
+    
+    /** The top-line two line ruler. */
+    public static final RulerGenerator topTwoLineRuler    = new RulerTwoLine(true);
+    
+    /** The bottom-line two line ruler. */
+    public static final RulerGenerator bottomTwoLineRuler = new RulerTwoLine(false);
     
     private static final String columnRuler
             = "        10        20        30        40        50        60        70        80        90       100"
@@ -40,11 +43,13 @@ public class RuleTwoLine implements Ruler {
     
     private final boolean isTop;
     
-    public RuleTwoLine(boolean isTop) {
+    /** Construct a RuleTwoLine ruler generator. */
+    public RulerTwoLine(boolean isTop) {
         this.isTop = isTop;
     }
     
-    public void createRuler(StringBuilder buffer, String prefix, int width) {
+    @Override
+    public void addRuler(StringBuilder buffer, String prefix, int width) {
         if (isTop) {
             appendColumns(buffer, prefix, width);
             buffer.append("\n");
@@ -58,22 +63,22 @@ public class RuleTwoLine implements Ruler {
         }
     }   
     
-    private void appendColumnPrefix(StringBuilder buffer, String prefix) {
-        buffer.append(prefix);
+    private void appendColumnPrefix(StringBuilder buffer, String linePrefix) {
+        buffer.append(linePrefix);
     }
     
-    private void appendColumns(StringBuilder buffer, String prefix, int width) {
-        appendColumnPrefix(buffer, prefix);
-        buffer.append(columnCache.computeIfAbsent(width,           __ -> columnRuler.substring(0, width)));
+    private void appendColumns(StringBuilder buffer, String linePrefix, int lineWidth) {
+        appendColumnPrefix(buffer, linePrefix);
+        buffer.append(columnCache.computeIfAbsent(lineWidth, __ -> columnRuler.substring(0, lineWidth)));
     }
     
-    private void appendLinePrefix(StringBuilder buffer, String prefix) {
-        buffer.append(prefixCache.computeIfAbsent(prefix.length(), __ -> prefix.replaceAll(" ", "-")));
+    private void appendLinePrefix(StringBuilder buffer, String linePrefix) {
+        buffer.append(prefixCache.computeIfAbsent(linePrefix.length(), __ -> linePrefix.replaceAll(" ", "-")));
     }
     
-    private void appendLine(StringBuilder buffer, String prefix, int width) {
-        appendLinePrefix(buffer, prefix);
-        buffer.append(lineCache  .computeIfAbsent(width, __ -> lineRuler.substring(0, width)));
+    private void appendLine(StringBuilder buffer, String linePrefix, int lineWidth) {
+        appendLinePrefix(buffer, linePrefix);
+        buffer.append(lineCache  .computeIfAbsent(lineWidth, __ -> lineRuler.substring(0, lineWidth)));
     }
     
 }

@@ -5,10 +5,10 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * Ruler generator with one line.
  */
-public class RulerOneLine implements Ruler {
+public class RulerOneLine implements RulerGenerator {
     
     /** The one line ruler. */
-    public static final Ruler oneLineRuler = new RulerOneLine();
+    public static final RulerGenerator oneLineRuler = new RulerOneLine();
     
     private static final String columnRuler
             = "----+---10----+---20----+---30----+---40----+---50----+---60----+---70----+---80----+---90----+--100"
@@ -25,10 +25,11 @@ public class RulerOneLine implements Ruler {
     private final ConcurrentHashMap<Integer, String> columnCache = new ConcurrentHashMap<>();
     private final ConcurrentHashMap<Integer, String> prefixCache = new ConcurrentHashMap<>();
     
-    public void createRuler(StringBuilder buffer, String prefix, int width) {
+    @Override
+    public void addRuler(StringBuilder buffer, String linePrefix, int lineWidth) {
         buffer
-        .append(prefixCache.computeIfAbsent(prefix.length(), __ -> prefix.replaceAll(" ", "-")))
-        .append(columnCache.computeIfAbsent(width,           __ -> columnRuler.substring(0, width)));
+        .append(prefixCache.computeIfAbsent(linePrefix.length(), __ -> linePrefix.replaceAll(" ", "-")))
+        .append(columnCache.computeIfAbsent(lineWidth,           __ -> columnRuler.substring(0, lineWidth)));
     }
     
 }

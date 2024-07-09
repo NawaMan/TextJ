@@ -4,8 +4,8 @@ import static java.lang.Math.ceil;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 import static java.util.stream.IntStream.rangeClosed;
-import static net.nawaman.codej.RuleTwoLine.bottomTwoLineRuler;
-import static net.nawaman.codej.RuleTwoLine.topTwoLineRuler;
+import static net.nawaman.codej.RulerTwoLine.bottomTwoLineRuler;
+import static net.nawaman.codej.RulerTwoLine.topTwoLineRuler;
 import static net.nawaman.codej.RulerOneLine.oneLineRuler;
 
 import java.util.List;
@@ -22,8 +22,8 @@ public class CodeSegmentPlainTextFormatter extends CodeSegmentFormatter {
                 
     public static final Func2<Code, Boolean, CodeSegmentFormatter> plainTextSegmentCreator = segmentCreator;
                 
-    private final Ruler topRuler;
-    private final Ruler bottomRuler;
+    private final RulerGenerator topRuler;
+    private final RulerGenerator bottomRuler;
     
     public CodeSegmentPlainTextFormatter(Code code) {
         this(code, false);
@@ -45,7 +45,7 @@ public class CodeSegmentPlainTextFormatter extends CodeSegmentFormatter {
         var output = new StringBuilder();
         
         var prefix = "    |";
-        topRuler.createRuler(output, prefix, maxColumn);
+        topRuler.addRuler(output, prefix, maxColumn);
         
         output.append("\n");
         for (int i = firstLine; i <= lastLine; i++) {
@@ -60,7 +60,7 @@ public class CodeSegmentPlainTextFormatter extends CodeSegmentFormatter {
         }
         
         if ((lastLine - firstLine) >= 5) {
-            bottomRuler.createRuler(output, prefix, maxColumn);
+            bottomRuler.addRuler(output, prefix, maxColumn);
             output.append("\n");
         }
         return output;
