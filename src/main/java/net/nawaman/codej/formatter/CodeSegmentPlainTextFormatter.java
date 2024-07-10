@@ -14,13 +14,15 @@ import functionalj.function.Func2;
 import net.nawaman.codej.Code;
 
 /**
- * Code Segment which displays with VT100 code.
+ * A code segment formatter.which displays with VT100 code.
  */
 public class CodeSegmentPlainTextFormatter extends CodeSegmentFormatter {
     
+    /** The segment creator. */
     public static final Func2<Code, Boolean, CodeSegmentFormatter> segmentCreator 
                 = (code, isOneLineRuler) -> new CodeSegmentPlainTextFormatter(code, isOneLineRuler != Boolean.FALSE);
-                
+    
+    /** The segment creator. */
     public static final Func2<Code, Boolean, CodeSegmentFormatter> plainTextSegmentCreator = segmentCreator;
                 
     private final RulerGenerator topRuler;
@@ -50,10 +52,6 @@ public class CodeSegmentPlainTextFormatter extends CodeSegmentFormatter {
         
         output.append("\n");
         for (int i = firstLine; i <= lastLine; i++) {
-            if (i >= code.lineCount()) {
-                break;
-            }
-            
             var lineNumber = " %2d |".formatted(i + 1); // 1-based index
             var codeLine   = code.line(i).replaceAll("\t", "                         ".substring(0, tabSize));
             
