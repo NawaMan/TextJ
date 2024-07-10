@@ -5,7 +5,10 @@ import static java.lang.Math.max;
 import java.util.function.IntFunction;
 import java.util.function.IntUnaryOperator;
 
-public class BinarySearch {
+public final class BinarySearch {
+    
+    private BinarySearch() {
+    }
     
     /**
      * Performs a binary search on a virtual array defined by an IntUnaryOperator.

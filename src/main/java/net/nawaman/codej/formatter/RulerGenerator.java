@@ -1,4 +1,4 @@
-package net.nawaman.codej;
+package net.nawaman.codej.formatter;
 
 /**
  * Generator for code ruler.

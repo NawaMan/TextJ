@@ -1,4 +1,4 @@
-package net.nawaman.codej;
+package net.nawaman.codej.formatter;
 
 import static java.lang.Math.max;
 import static java.lang.Math.min;
@@ -6,6 +6,7 @@ import static java.lang.Math.min;
 import java.util.List;
 
 import functionalj.list.FuncList;
+import net.nawaman.codej.Code;
 
 /**
  * A segment of code.

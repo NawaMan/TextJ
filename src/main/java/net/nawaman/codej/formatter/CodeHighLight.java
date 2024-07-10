@@ -1,4 +1,4 @@
-package net.nawaman.codej;
+package net.nawaman.codej.formatter;
 
 /**
  * CodeHighLight represent a highlight in the code.

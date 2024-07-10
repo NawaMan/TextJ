@@ -1,4 +1,4 @@
-package net.nawaman.codej;
+package net.nawaman.codej.formatter;
 
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -49,17 +49,18 @@ public class RulerTwoLine implements RulerGenerator {
     }
     
     @Override
-    public void addRuler(StringBuilder buffer, String prefix, int width) {
+    public void addRuler(StringBuilder buffer, String linePrefix, int lineWidth) {
+        var width = Math.min(lineWidth, columnRuler.length());
         if (isTop) {
-            appendColumns(buffer, prefix, width);
+            appendColumns(buffer, linePrefix, width);
             buffer.append("\n");
             
-            appendLine(buffer, prefix, width);
+            appendLine(buffer, linePrefix, width);
         } else {
-            appendLine(buffer, prefix, width);
+            appendLine(buffer, linePrefix, width);
             buffer.append("\n");
             
-            appendColumns(buffer, prefix, width);
+            appendColumns(buffer, linePrefix, width);
         }
     }   
     

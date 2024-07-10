@@ -1,4 +1,4 @@
-package net.nawaman.codej;
+package net.nawaman.codej.formatter;
 
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -27,9 +27,11 @@ public class RulerOneLine implements RulerGenerator {
     
     @Override
     public void addRuler(StringBuilder buffer, String linePrefix, int lineWidth) {
+        var width = Math.min(lineWidth, columnRuler.length());
+        
         buffer
         .append(prefixCache.computeIfAbsent(linePrefix.length(), __ -> linePrefix.replaceAll(" ", "-")))
-        .append(columnCache.computeIfAbsent(lineWidth,           __ -> columnRuler.substring(0, lineWidth)));
+        .append(columnCache.computeIfAbsent(lineWidth, __ -> columnRuler.substring(0, width)));
     }
     
 }

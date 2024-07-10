@@ -1,16 +1,17 @@
-package net.nawaman.codej;
+package net.nawaman.codej.formatter;
 
 import static java.lang.Math.ceil;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 import static java.util.stream.IntStream.rangeClosed;
-import static net.nawaman.codej.RulerTwoLine.bottomTwoLineRuler;
-import static net.nawaman.codej.RulerTwoLine.topTwoLineRuler;
-import static net.nawaman.codej.RulerOneLine.oneLineRuler;
+import static net.nawaman.codej.formatter.RulerOneLine.oneLineRuler;
+import static net.nawaman.codej.formatter.RulerTwoLine.bottomTwoLineRuler;
+import static net.nawaman.codej.formatter.RulerTwoLine.topTwoLineRuler;
 
 import java.util.List;
 
 import functionalj.function.Func2;
+import net.nawaman.codej.Code;
 
 /**
  * Code Segment which displays with VT100 code.
