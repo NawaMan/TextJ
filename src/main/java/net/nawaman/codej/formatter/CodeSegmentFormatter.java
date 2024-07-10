@@ -9,7 +9,7 @@ import functionalj.list.FuncList;
 import net.nawaman.codej.Code;
 
 /**
- * A segment of code.
+ * A code segment formatter.
  */
 public abstract class CodeSegmentFormatter {
     
@@ -17,9 +17,11 @@ public abstract class CodeSegmentFormatter {
     protected final String content;
     protected final int    tabSize;
     
+    /** Constructs a new CodeSegmentFormatter */
     public CodeSegmentFormatter(Code code) {
         this.code    = code;
         this.content = code.content();
+        
         this.tabSize = code.tabSize();
     }
     
