@@ -17,7 +17,7 @@ import functionalj.list.FuncList;
 import net.nawaman.codej.Code;
 
 /**
- * Code Segment which displays with VT100 code.
+ * A code segment formatter.which displays with VT100 code.
  */
 public class CodeSegmentVT100Formatter extends CodeSegmentFormatter {
     
@@ -71,10 +71,6 @@ public class CodeSegmentVT100Formatter extends CodeSegmentFormatter {
         
         output.append("\n");
         for (int i = firstLine; i <= lastLine; i++) {
-            if (i >= code.lineCount()) {
-                break;
-            }
-            
             var lineNumber = " %2d |".formatted(i + 1); // 1-based index
             var codeLine   = code.lineLn(i);
             
@@ -155,10 +151,7 @@ public class CodeSegmentVT100Formatter extends CodeSegmentFormatter {
     }
     
     private String highlightLineSegment(String codeLine) {
-        codeLine = codeLine.replaceAll("(\bclass\b)",  "\u001B[1m$1\u001B[0m");
         return codeLine
-                .replaceAll("([\\(\\)\\{\\}\\[\\]\\\"\\\'\\.;,+-]+)", "\u001B[1m$1\u001B[0m")
-                .replaceAll("(\\bprivate\\b|\\bstatic\\b|\\bpublic\\b|\\bvoid\\b|\\bvar\\b|\\bint\\b|\\bfor\\b|\\bif\\b|\\bclass\\b)", "\u001B[1m$1\u001B[0m")
                 .replaceAll(" ",  "\u001B[38;2;200;200;200m·\u001B[0m")
                 .replaceAll("\t", "\u001B[38;2;200;200;200m" + "—————————————————".substring(0, tabSize - 1) + "→\u001B[0m")
                 .replaceAll("\r", "\u001B[38;2;200;200;200m↵\u001B[0m")
