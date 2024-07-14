@@ -283,7 +283,7 @@ public class Code {
         var start   = startOffset(lineNumber);
         var end     = (lineNumber < knownLineCount - 1)
                     ? startOffset(lineNumber + 1)
-                    : min(endOffset(lineNumber) + 1, length());
+                    : length();
         var content = content();
         return content.substring(start, end);
     }

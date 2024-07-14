@@ -12,7 +12,7 @@ class CodeSegmentVT100FormatterTest {
     Code                 code      = new Code("first line\nsecond line\nthird line\nfourth line\nfifth line\nsixth line");
     CodeSegmentFormatter formatter = new CodeSegmentVT100Formatter(code);
     
-    boolean printActual = false;
+    boolean printActual = true;
     
     @Test
     void testFirst() {
