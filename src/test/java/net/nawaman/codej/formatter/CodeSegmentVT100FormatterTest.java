@@ -1,6 +1,6 @@
 package net.nawaman.codej.formatter;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
@@ -9,21 +9,22 @@ import net.nawaman.codej.Code;
 
 class CodeSegmentVT100FormatterTest {
     
-    Code                 code      = new Code("first line\nsecond line\nthird line\nfourth line\nfifth line\nsixth line");
+    Code                 code      = new Code("0123\n012345678\n01234567890123\n0123456789012345678\r01234567890123456789012\r\n012345678901234567890123456789");
     CodeSegmentFormatter formatter = new CodeSegmentVT100Formatter(code);
     
-    boolean printActual = true;
+    boolean printActual = false;
     
     @Test
     void testFirst() {
         var expected = """
                     |        10        20        30        40        50        60        70        80
                 ----|----+----|----+----|----+----|----+----|----+----|----+----|----+----|----+----|
-                  1 |first[38;2;200;200;200m·[0mline[38;2;200;200;200m¶[0m
-                  2 |second[38;2;200;200;200m·[0mline[38;2;200;200;200m¶[0m
+                  1 |0123[38;2;200;200;200m¶[0m
+                  2 |012345678[38;2;200;200;200m¶[0m
                 """;
         var actual = formatter.byLines(0, 1).toString();
         if (printActual) {
+            System.out.println("-- %s --".formatted("testFirst"));
             System.out.println(actual);
         }
         assertEquals(expected, actual);
@@ -34,11 +35,44 @@ class CodeSegmentVT100FormatterTest {
         var expected = """
                     |        10        20        30        40        50        60        70        80
                 ----|----+----|----+----|----+----|----+----|----+----|----+----|----+----|----+----|
-                  2 |second[38;2;200;200;200m·[0mline[38;2;200;200;200m¶[0m
-                  3 |third[38;2;200;200;200m·[0mline[38;2;200;200;200m¶[0m
+                  2 |012345678[38;2;200;200;200m¶[0m
+                  3 |01234567890123[38;2;200;200;200m¶[0m
                 """;
         var actual = formatter.byLines(1, 2).toString();
         if (printActual) {
+            System.out.println("-- %s --".formatted("testSecond"));
+            System.out.println(actual);
+        }
+        assertEquals(expected, actual);
+    }
+    
+    @Test
+    void testThird() {
+        var expected = """
+                    |        10        20        30        40        50        60        70        80
+                ----|----+----|----+----|----+----|----+----|----+----|----+----|----+----|----+----|
+                  3 |01234567890123[38;2;200;200;200m¶[0m
+                  4 |0123456789012345678[38;2;200;200;200m↵[0m
+                """;
+        var actual = formatter.byLines(2, 3).toString();
+        if (printActual) {
+            System.out.println("-- %s --".formatted("testThird"));
+            System.out.println(actual);
+        }
+        assertEquals(expected, actual);
+    }
+    
+    @Test
+    void testForth() {
+        var expected = """
+                    |        10        20        30        40        50        60        70        80
+                ----|----+----|----+----|----+----|----+----|----+----|----+----|----+----|----+----|
+                  4 |0123456789012345678[38;2;200;200;200m↵[0m
+                  5 |01234567890123456789012[38;2;200;200;200m↵[0m[38;2;200;200;200m¶[0m
+                """;
+        var actual = formatter.byLines(3, 4).toString();
+        if (printActual) {
+            System.out.println("-- %s --".formatted("testForth"));
             System.out.println(actual);
         }
         assertEquals(expected, actual);
@@ -49,11 +83,12 @@ class CodeSegmentVT100FormatterTest {
         var expected = """
                     |        10        20        30        40        50        60        70        80
                 ----|----+----|----+----|----+----|----+----|----+----|----+----|----+----|----+----|
-                  5 |fifth[38;2;200;200;200m·[0mline[38;2;200;200;200m¶[0m
-                  6 |sixth[38;2;200;200;200m·[0mline
+                  5 |01234567890123456789012[38;2;200;200;200m↵[0m[38;2;200;200;200m¶[0m
+                  6 |012345678901234567890123456789
                 """;
         var actual = formatter.byLines(4, 5).toString();
         if (printActual) {
+            System.out.println("-- %s --".formatted("testLast"));
             System.out.println(actual);
         }
         assertEquals(expected, actual);
@@ -64,17 +99,18 @@ class CodeSegmentVT100FormatterTest {
         var expected = """
                     |        10        20        30        40        50        60        70        80
                 ----|----+----|----+----|----+----|----+----|----+----|----+----|----+----|----+----|
-                  1 |first[38;2;200;200;200m·[0mline[38;2;200;200;200m¶[0m
-                  2 |second[38;2;200;200;200m·[0mline[38;2;200;200;200m¶[0m
-                  3 |third[38;2;200;200;200m·[0mline[38;2;200;200;200m¶[0m
-                  4 |fourth[38;2;200;200;200m·[0mline[38;2;200;200;200m¶[0m
-                  5 |fifth[38;2;200;200;200m·[0mline[38;2;200;200;200m¶[0m
-                  6 |sixth[38;2;200;200;200m·[0mline
+                  1 |0123[38;2;200;200;200m¶[0m
+                  2 |012345678[38;2;200;200;200m¶[0m
+                  3 |01234567890123[38;2;200;200;200m¶[0m
+                  4 |0123456789012345678[38;2;200;200;200m↵[0m
+                  5 |01234567890123456789012[38;2;200;200;200m↵[0m[38;2;200;200;200m¶[0m
+                  6 |012345678901234567890123456789
                 ----|----+----|----+----|----+----|----+----|----+----|----+----|----+----|----+----|
                     |        10        20        30        40        50        60        70        80
                 """;
         var actual = formatter.byLines(0, Integer.MAX_VALUE).toString();
         if (printActual) {
+            System.out.println("-- %s --".formatted("testAll"));
             System.out.println(actual);
         }
         assertEquals(expected, actual);
@@ -118,7 +154,7 @@ class CodeSegmentVT100FormatterTest {
                  11 |[100;1;3;37m·········[0m[38;2;200;200;200m·[0m[38;2;200;200;200m·[0m[38;2;200;200;200m·[0mSystem.out.println();[38;2;200;200;200m¶[0m
                  12 |[38;2;200;200;200m·[0m[38;2;200;200;200m·[0m[38;2;200;200;200m·[0m[38;2;200;200;200m·[0m[38;2;200;200;200m·[0m[38;2;200;200;200m·[0m[38;2;200;200;200m·[0m[38;2;200;200;200m·[0m}[38;2;200;200;200m¶[0m
                  13 |[38;2;200;200;200m·[0m[38;2;200;200;200m·[0m[38;2;200;200;200m·[0m[38;2;200;200;200m·[0m}[38;2;200;200;200m¶[0m
-                 14 |}[38;2;200;200;200m¶[0m
+                 14 |}
                  15 |
                 ----|----+----|----+----|----+----|----+----|----+----|----+----|----+----|----+----|
                     |        10        20        30        40        50        60        70        80
@@ -138,6 +174,7 @@ class CodeSegmentVT100FormatterTest {
                 outOfOrderHighlight
         ).toString();
         if (printActual) {
+            System.out.println("-- %s --".formatted("testHighLights"));
             System.out.println(actual);
         }
         System.out.println("\r\n");

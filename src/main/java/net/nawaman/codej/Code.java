@@ -3,7 +3,6 @@ package net.nawaman.codej;
 import static functionalj.list.intlist.IntFuncList.infinite;
 import static java.lang.Math.abs;
 import static java.lang.Math.max;
-import static java.lang.Math.min;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -255,6 +254,12 @@ public class Code {
         return end;
     }
     
+    public final String xray() {
+        return FuncList.from(newLines)
+                .map(IntFuncList::ints)
+                .toString();
+    }
+    
     /**
      * Returns the line at the given line number.
      *
@@ -281,9 +286,15 @@ public class Code {
         }
         
         var start   = startOffset(lineNumber);
-        var end     = (lineNumber < knownLineCount - 1)
-                    ? startOffset(lineNumber + 1)
-                    : length();
+        int end;
+        if (lineNumber < knownLineCount - 1) {
+            end = startOffset(lineNumber + 1);
+        } else {
+            end = rawEndOffset(lineNumber);
+            if (end  < 0) {
+                end = abs(end) + 1;
+            }
+        }
         var content = content();
         return content.substring(start, end);
     }

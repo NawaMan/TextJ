@@ -12,7 +12,6 @@ import java.util.function.Supplier;
 
 import org.junit.jupiter.api.Test;
 
-import functionalj.lens.Access;
 import functionalj.list.intlist.IntFuncList;
 import net.nawaman.codej.formatter.CodeSegmentPlainTextFormatter;
 
@@ -1234,6 +1233,18 @@ class CodeTest {
                 + "]",
                 range(0, code.lineCount())
                 .mapToObj(code::lineLn)
+                .map(theString
+                        .replaceAll("\r", "\\\\r")
+                        .replaceAll("\n", "\\\\n"))
+                .toString());
+        assertEquals(
+                "["
+                + "first\\n, "
+                + "second\\r, "
+                + "third\\r\\n, "
+                + "forth\\r\\n, "
+                + "]",
+                code.lineLns()
                 .map(theString
                         .replaceAll("\r", "\\\\r")
                         .replaceAll("\n", "\\\\n"))

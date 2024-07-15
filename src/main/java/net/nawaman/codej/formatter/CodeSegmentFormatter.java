@@ -94,7 +94,8 @@ public abstract class CodeSegmentFormatter {
     
     /** @return  the segment from the start offset to the end offset. */
     public final CharSequence byLines(int firstLine, int lastLine, CodeHighLight ... highlights) {
-        return byLines(firstLine, lastLine, FuncList.from(highlights));
+        var list = FuncList.from(highlights);
+        return byLines(firstLine, lastLine, list);
     }
     
     /** @return  the segment from the start offset to the end offset */
