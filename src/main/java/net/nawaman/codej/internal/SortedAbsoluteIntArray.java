@@ -137,7 +137,7 @@ public class SortedAbsoluteIntArray {
      * 
      * @return  the count of values in the array.
      */
-    public final int count() {
+    public final int length() {
         if (nextIndexInArray == 0) {
             return 0;
         }
@@ -158,7 +158,7 @@ public class SortedAbsoluteIntArray {
             throw new ArrayIndexOutOfBoundsException("Index out of bound: " + index);
         }
         
-        int lineIndex = index / arrayLength;
+        int lineIndex   = index / arrayLength;
         int columnIndex = index % arrayLength;
         if (lineIndex >= arrayCount) {
             throw new ArrayIndexOutOfBoundsException("Index out of bound: " + index);
@@ -174,7 +174,7 @@ public class SortedAbsoluteIntArray {
      * @return  the values in the array
      */
     public final IntFuncList values() {
-        var lineCount = count();
+        var lineCount = length();
         return IntFuncList.from(values.stream().flatMapToInt(array -> IntStream.of(array)))
                 .limit(lineCount);
     }
@@ -192,7 +192,10 @@ public class SortedAbsoluteIntArray {
             return 0;
         }
         
-        return findIndex(indexAt, valueSize, arrayLength, abs(needle));
+        int absNeedle    = abs(needle);
+        var subStopIndex = (IntUnaryOperator)(i -> (i == (valueSize - 1)) ? nextIndexInArray : arrayLength);
+        int index        = findIndex(indexAt, valueSize, arrayLength, subStopIndex, absNeedle);
+        return index;
     }
     
 }

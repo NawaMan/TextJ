@@ -78,6 +78,8 @@ class CodeTest {
     
     @Test
     void testBasic_noTail_ensureOffset() {
+        //             000000 1111111 222222 33333
+        //             012345 6789012 345678 90123
         var content = "first\nsecond\nthird\nforth";
         var code    = new Code(content);
         
@@ -89,20 +91,20 @@ class CodeTest {
         assertEquals(0, code.knownLineCount());
         
         code.processLinesToOffset(2);
-        assertEquals(0, code.knownLineCount());
+        assertEquals(1, code.knownLineCount());
         
         code.processLinesToOffset(5);
-        assertEquals(0, code.knownLineCount());
-        code.processLinesToOffset(6);
         assertEquals(1, code.knownLineCount());
+        code.processLinesToOffset(6);
+        assertEquals(2, code.knownLineCount());
         
         code.processLinesToOffset(12);
-        assertEquals(1, code.knownLineCount());
-        code.processLinesToOffset(13);
         assertEquals(2, code.knownLineCount());
+        code.processLinesToOffset(13);
+        assertEquals(3, code.knownLineCount());
         
         code.processLinesToOffset(18);
-        assertEquals(2, code.knownLineCount());
+        assertEquals(3, code.knownLineCount());
         code.processLinesToOffset(19);
         assertEquals(3, code.knownLineCount());
         
@@ -128,25 +130,25 @@ class CodeTest {
         assertEquals(0, code.knownLineCount());
         
         code.processLinesToOffset(2);
-        assertEquals(0, code.knownLineCount());
+        assertEquals(1, code.knownLineCount());
         
         code.processLinesToOffset(5);
-        assertEquals(0, code.knownLineCount());
-        code.processLinesToOffset(6);
         assertEquals(1, code.knownLineCount());
+        code.processLinesToOffset(6);
+        assertEquals(2, code.knownLineCount());
         
         code.processLinesToOffset(12);
-        assertEquals(1, code.knownLineCount());
-        code.processLinesToOffset(13);
         assertEquals(2, code.knownLineCount());
+        code.processLinesToOffset(13);
+        assertEquals(3, code.knownLineCount());
         
         code.processLinesToOffset(18);
-        assertEquals(2, code.knownLineCount());
-        code.processLinesToOffset(19);
         assertEquals(3, code.knownLineCount());
+        code.processLinesToOffset(19);
+        assertEquals(4, code.knownLineCount());
         
         code.processLinesToOffset(24);
-        assertEquals(3, code.knownLineCount());
+        assertEquals(4, code.knownLineCount());
         code.processLinesToOffset(25);
         assertEquals(4, code.knownLineCount());
         code.processLinesToOffset(26);
@@ -254,20 +256,20 @@ class CodeTest {
         assertEquals(0, code.knownLineCount());
         
         code.processLinesToOffset(3);
-        assertEquals(0, code.knownLineCount());
+        assertEquals(1, code.knownLineCount());
         
         code.processLinesToOffset(5);
-        assertEquals(0, code.knownLineCount());
-        code.processLinesToOffset(6);
         assertEquals(1, code.knownLineCount());
+        code.processLinesToOffset(6);
+        assertEquals(2, code.knownLineCount());
         
         code.processLinesToOffset(12);
-        assertEquals(1, code.knownLineCount());
-        code.processLinesToOffset(13);
         assertEquals(2, code.knownLineCount());
+        code.processLinesToOffset(13);
+        assertEquals(3, code.knownLineCount());
         
         code.processLinesToOffset(18);
-        assertEquals(2, code.knownLineCount());
+        assertEquals(3, code.knownLineCount());
         code.processLinesToOffset(19);
         assertEquals(3, code.knownLineCount());
     }
@@ -298,25 +300,25 @@ class CodeTest {
         assertEquals(0, code.knownLineCount());
         
         code.processLinesToOffset(3);
-        assertEquals(0, code.knownLineCount());
+        assertEquals(1, code.knownLineCount());
         
         code.processLinesToOffset(5);
-        assertEquals(0, code.knownLineCount());
-        code.processLinesToOffset(6);
         assertEquals(1, code.knownLineCount());
+        code.processLinesToOffset(6);
+        assertEquals(2, code.knownLineCount());
         
         code.processLinesToOffset(12);
-        assertEquals(1, code.knownLineCount());
-        code.processLinesToOffset(13);
         assertEquals(2, code.knownLineCount());
+        code.processLinesToOffset(13);
+        assertEquals(3, code.knownLineCount());
         
         code.processLinesToOffset(18);
-        assertEquals(2, code.knownLineCount());
-        code.processLinesToOffset(19);
         assertEquals(3, code.knownLineCount());
+        code.processLinesToOffset(19);
+        assertEquals(4, code.knownLineCount());
         
         code.processLinesToOffset(24);
-        assertEquals(3, code.knownLineCount());
+        assertEquals(4, code.knownLineCount());
         code.processLinesToOffset(25);
         assertEquals(4, code.knownLineCount());
     }
@@ -342,41 +344,43 @@ class CodeTest {
     
     @Test
     void testBasic_windows_ensureOffset() {
+        //             0000000001111111111222222222333333333
+        //             01234 5 6789012 3 456789 0 123456 7 8
         var content = "first\r\nsecond\r\nthird\r\nforth\r\n";
         var code    = new Code(content);
         
         assertEquals(0, code.knownLineCount());
         
         code.processLinesToOffset(3);
-        assertEquals(0, code.knownLineCount());
+        assertEquals(1, code.knownLineCount());
         
         // The line is recognized one character earlier because once it see '\r' it check next for the '\n'
         code.processLinesToOffset(5);
-        assertEquals(0, code.knownLineCount());
+        assertEquals(1, code.knownLineCount());
         code.processLinesToOffset(6);
         assertEquals(1, code.knownLineCount());
         code.processLinesToOffset(7);
-        assertEquals(1, code.knownLineCount());
+        assertEquals(2, code.knownLineCount());
         
         // The line is recognized one character earlier because once it see '\r' it check next for the '\n'
         code.processLinesToOffset(13);
-        assertEquals(1, code.knownLineCount());
+        assertEquals(2, code.knownLineCount());
         code.processLinesToOffset(14);
         assertEquals(2, code.knownLineCount());
         code.processLinesToOffset(15);
-        assertEquals(2, code.knownLineCount());
+        assertEquals(3, code.knownLineCount());
         
         // The line is recognized one character earlier because once it see '\r' it check next for the '\n'
         code.processLinesToOffset(20);
-        assertEquals(2, code.knownLineCount());
+        assertEquals(3, code.knownLineCount());
         code.processLinesToOffset(21);
         assertEquals(3, code.knownLineCount());
         code.processLinesToOffset(22);
-        assertEquals(3, code.knownLineCount());
+        assertEquals(4, code.knownLineCount());
         
         // The line is recognized one character earlier because once it see '\r' it check next for the '\n'
         code.processLinesToOffset(27);
-        assertEquals(3, code.knownLineCount());
+        assertEquals(4, code.knownLineCount());
         code.processLinesToOffset(28);
         assertEquals(4, code.knownLineCount());
         code.processLinesToOffset(29);
@@ -410,27 +414,27 @@ class CodeTest {
         assertEquals(0, code.knownLineCount());
         
         code.processLinesToOffset(3);
-        assertEquals(0, code.knownLineCount());
+        assertEquals(1, code.knownLineCount());
         
         code.processLinesToOffset(5);
-        assertEquals(0, code.knownLineCount());
-        code.processLinesToOffset(6);
         assertEquals(1, code.knownLineCount());
+        code.processLinesToOffset(6);
+        assertEquals(2, code.knownLineCount());
         
         code.processLinesToOffset(12);
-        assertEquals(1, code.knownLineCount());
-        code.processLinesToOffset(13);
         assertEquals(2, code.knownLineCount());
+        code.processLinesToOffset(13);
+        assertEquals(3, code.knownLineCount());
         
         code.processLinesToOffset(18);
-        assertEquals(2, code.knownLineCount());
+        assertEquals(3, code.knownLineCount());
         code.processLinesToOffset(19);
         assertEquals(3, code.knownLineCount());
         code.processLinesToOffset(20);
-        assertEquals(3, code.knownLineCount());
+        assertEquals(4, code.knownLineCount());
         
         code.processLinesToOffset(25);
-        assertEquals(3, code.knownLineCount());
+        assertEquals(4, code.knownLineCount());
         code.processLinesToOffset(26);
         assertEquals(4, code.knownLineCount());
         code.processLinesToOffset(27);
@@ -686,7 +690,6 @@ class CodeTest {
                 ----|----+----|----+----|----+----|----+----|----+----|----+----|----+----|----+----|
                   1 |first
                   2 |    second
-                  3 |  third
                 
                 
                 Offset: 1
@@ -694,7 +697,6 @@ class CodeTest {
                 ----|----+----|----+----|----+----|----+----|----+----|----+----|----+----|----+----|
                   1 |first
                   2 |    second
-                  3 |  third
                 
                 
                 Offset: 2
@@ -702,7 +704,6 @@ class CodeTest {
                 ----|----+----|----+----|----+----|----+----|----+----|----+----|----+----|----+----|
                   1 |first
                   2 |    second
-                  3 |  third
                 
                 
                 Offset: 3
@@ -710,7 +711,6 @@ class CodeTest {
                 ----|----+----|----+----|----+----|----+----|----+----|----+----|----+----|----+----|
                   1 |first
                   2 |    second
-                  3 |  third
                 
                 
                 Offset: 4
@@ -718,7 +718,6 @@ class CodeTest {
                 ----|----+----|----+----|----+----|----+----|----+----|----+----|----+----|----+----|
                   1 |first
                   2 |    second
-                  3 |  third
                 
                 
                 Offset: 5
@@ -726,7 +725,6 @@ class CodeTest {
                 ----|----+----|----+----|----+----|----+----|----+----|----+----|----+----|----+----|
                   1 |first
                   2 |    second
-                  3 |  third
                 
                 
                 Offset: 6
@@ -734,7 +732,6 @@ class CodeTest {
                 ----|----+----|----+----|----+----|----+----|----+----|----+----|----+----|----+----|
                   1 |first
                   2 |    second
-                  3 |  third
                 
                 
                 Offset: 7
@@ -743,7 +740,6 @@ class CodeTest {
                   1 |first
                   2 |    second
                   3 |  third
-                  4 |forth
                 
                 
                 Offset: 8
@@ -752,7 +748,6 @@ class CodeTest {
                   1 |first
                   2 |    second
                   3 |  third
-                  4 |forth
                 
                 
                 Offset: 9
@@ -761,7 +756,6 @@ class CodeTest {
                   1 |first
                   2 |    second
                   3 |  third
-                  4 |forth
                 
                 
                 Offset: 10
@@ -770,7 +764,6 @@ class CodeTest {
                   1 |first
                   2 |    second
                   3 |  third
-                  4 |forth
                 
                 
                 Offset: 11
@@ -779,7 +772,6 @@ class CodeTest {
                   1 |first
                   2 |    second
                   3 |  third
-                  4 |forth
                 
                 
                 Offset: 12
@@ -788,7 +780,6 @@ class CodeTest {
                   1 |first
                   2 |    second
                   3 |  third
-                  4 |forth
                 
                 
                 Offset: 13
@@ -797,7 +788,6 @@ class CodeTest {
                   1 |first
                   2 |    second
                   3 |  third
-                  4 |forth
                 
                 
                 Offset: 14
@@ -806,7 +796,6 @@ class CodeTest {
                   1 |first
                   2 |    second
                   3 |  third
-                  4 |forth
                 
                 
                 Offset: 15
@@ -815,7 +804,6 @@ class CodeTest {
                   1 |first
                   2 |    second
                   3 |  third
-                  4 |forth
                 
                 
                 Offset: 16
@@ -955,7 +943,6 @@ class CodeTest {
                   1 |first
                   2 |    second
                   3 |  third
-                  4 |forth
                 
                 
                 Offset: 1
@@ -964,7 +951,6 @@ class CodeTest {
                   1 |first
                   2 |    second
                   3 |  third
-                  4 |forth
                 
                 
                 Offset: 2
@@ -973,7 +959,6 @@ class CodeTest {
                   1 |first
                   2 |    second
                   3 |  third
-                  4 |forth
                 
                 
                 Offset: 3
@@ -982,7 +967,6 @@ class CodeTest {
                   1 |first
                   2 |    second
                   3 |  third
-                  4 |forth
                 
                 
                 Offset: 4
@@ -991,7 +975,6 @@ class CodeTest {
                   1 |first
                   2 |    second
                   3 |  third
-                  4 |forth
                 
                 
                 Offset: 5
@@ -1249,10 +1232,6 @@ class CodeTest {
                         .replaceAll("\r", "\\\\r")
                         .replaceAll("\n", "\\\\n"))
                 .toString());
-        
-        System.out.println(code.lineCount());
-        System.out.println(code.length());
-        System.out.println(code.endOffset(code.lineCount() - 1));
     }
     
 }

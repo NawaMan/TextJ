@@ -32,7 +32,8 @@ public final class BinarySearch {
         if (needle <= values.applyAsInt(0)) {
             return 0;
         }
-        if (needle > values.applyAsInt(stopIndex - 1)) {
+        int lastKnow = values.applyAsInt(stopIndex - 1);
+        if (needle > lastKnow) {
             return stopIndex;
         }
         
@@ -75,15 +76,17 @@ public final class BinarySearch {
      * @throws ArithmeticException  if any midpoint or index calculations overflow.
      * @see #findIndex(IntUnaryOperator, int, int) This method uses the single-dimension findIndex internally.
      */
-    public static int findIndex(IntFunction<IntUnaryOperator> values, int stopIndex, int subStopIndex, int needle) {
+    public static int findIndex(IntFunction<IntUnaryOperator> values, int stopIndex, int maxSubStop, IntUnaryOperator subStopIndex, int needle) {
         var first = (IntUnaryOperator)(i -> {
             return values.apply(i).applyAsInt(0);
         });
         int subIndex = max(0, findIndex(first, stopIndex, needle) - 1);
         
         var subValues = values.apply(subIndex);
-        int index = findIndex(subValues, subStopIndex, needle);
-        return subIndex*subStopIndex + index;
+        var subStop   = subStopIndex.applyAsInt(subIndex);
+        int index     = findIndex(subValues, subStop, needle);
+        int finalIndex = subIndex*maxSubStop + index;
+        return finalIndex;
     }
     
 }

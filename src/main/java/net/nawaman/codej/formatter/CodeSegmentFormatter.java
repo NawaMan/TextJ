@@ -42,7 +42,8 @@ public abstract class CodeSegmentFormatter {
     
     /** @return  the start offset of this segment. */
     public final CharSequence byOffset(int startOffset, CodeHighLight ... highlights) {
-        return byOffset(startOffset, FuncList.from(highlights));
+        var list = FuncList.from(highlights);
+        return byOffset(startOffset, list);
     }
     
     /** @return  the start offset of this segment. */
@@ -52,7 +53,8 @@ public abstract class CodeSegmentFormatter {
     
     /** @return  the segment from the start offset to the end offset. */
     public final CharSequence byOffsets(int startOffset, int endOffset, CodeHighLight ... highlights) {
-        return byOffsets(startOffset, endOffset, FuncList.from(highlights));
+        var list = FuncList.from(highlights);
+        return byOffsets(startOffset, endOffset, list);
     }
     
     /** @return  the segment from the start offset to the end offset. */
@@ -73,7 +75,7 @@ public abstract class CodeSegmentFormatter {
         code.processToLineCount(code.knownLineCount() + 1);
         
         var firstLine = max(0, code.lineNumberAtOffset(startOffset) - 1);
-        lastLine      = min(lastLine + 1, code.knownLineCount());
+        lastLine      = min(lastLine, code.knownLineCount());
         
         return byLines(firstLine, lastLine, highlights);
     }

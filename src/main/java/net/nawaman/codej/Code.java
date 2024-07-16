@@ -4,13 +4,9 @@ import static functionalj.list.intlist.IntFuncList.infinite;
 import static java.lang.Math.abs;
 import static java.lang.Math.max;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.IntUnaryOperator;
-import java.util.stream.IntStream;
-
 import functionalj.list.FuncList;
 import functionalj.list.intlist.IntFuncList;
+import net.nawaman.codej.internal.SortedAbsoluteIntArray;
 
 /**
  * This class represents a specification for code.
@@ -32,14 +28,12 @@ public class Code {
     /** The default tab size. */
     public static final int DEFAULT_TAB_SIZE = 4;
     
-    private final int ARRAY_LENGTH = 32;
-    
     private final String content;
     private final int    tabSize;
     
-    private final List<int[]> newLines = new ArrayList<>(16);
-    private int latestInArray   = 0;
-    private int processedOffset = 0;
+    private final SortedAbsoluteIntArray newLines = new SortedAbsoluteIntArray();
+    private int processedOffset         = 0;
+    private int previousProcessedOffset = 0;
     
     /**
      * Constructs a new instance of Code with the given content with default tabSize.
@@ -122,7 +116,7 @@ public class Code {
         var content   = content();
         int length    = content.length();
         offset = Math.min(offset, length);
-        for ( ; (processedOffset < offset) && (lineCount < lines); processedOffset++) {
+        for ( ; (previousProcessedOffset < offset) && (lineCount < lines) && (processedOffset < length); processedOffset++) {
             var ch = content.charAt(processedOffset);
             if (ch == '\r') {
                 if (((processedOffset + 1) < length) && (content.charAt(processedOffset + 1) == '\n')) {
@@ -141,30 +135,13 @@ public class Code {
     }
     
     private void addNewLine(int newLineOffset) {
-        if (latestInArray >= ARRAY_LENGTH) {
-            latestInArray = 0;
-            newLines.add(new int[ARRAY_LENGTH]);
-        }
-        
-        int lastLine = newLines.size();
-        if (lastLine == 0) {
-            newLines.add(new int[ARRAY_LENGTH]);
-            lastLine = 1;
-        }
-        
-        var array = newLines.get(lastLine - 1);
-        array[latestInArray] = newLineOffset;
-        
-        latestInArray++; 
+        newLines.add(newLineOffset);
+        previousProcessedOffset = abs(newLineOffset);
     }
     
     /** @return  the currently known number of lines. */
     public final int knownLineCount() {
-        if (latestInArray == 0) {
-            return 0;
-        }
-        
-        int currentNewlineCount = (newLines.size() - 1)*ARRAY_LENGTH + latestInArray;
+        int currentNewlineCount = newLines.length();
         return currentNewlineCount;
     }
     
@@ -182,7 +159,7 @@ public class Code {
     public final IntFuncList newlineOffsets() {
         processAllLines();
         var lineCount = knownLineCount();
-        return IntFuncList.from(newLines.stream().flatMapToInt(array -> IntStream.of(array)))
+        return newLines.values()
                 .map(Math::abs)
                 .limit(lineCount);
     }
@@ -246,18 +223,9 @@ public class Code {
         int end          = content.length();
         int newlineCount = knownLineCount();
         if (lineNumber != newlineCount) {
-            var arrayIndex = lineNumber / ARRAY_LENGTH;
-            var lineIndex  = lineNumber % ARRAY_LENGTH;
-            var array      = newLines.get(arrayIndex);
-            end            = array[lineIndex];
+            end = newLines.get(lineNumber);
         }
         return end;
-    }
-    
-    public final String xray() {
-        return FuncList.from(newLines)
-                .map(IntFuncList::ints)
-                .toString();
     }
     
     /**
@@ -270,7 +238,8 @@ public class Code {
         var start   = startOffset(lineNumber);
         var end     = endOffset(lineNumber);
         var content = content();
-        return content.substring(start, end);
+        var line    = content.substring(start, end);
+        return line;
     }
     
     /**
@@ -321,55 +290,15 @@ public class Code {
      */
     public int lineNumberAtOffset(int offset) {
         processLinesToOffset(offset);
-        if (newLines.size() == 0) {
+        if (newLines.length() == 0) {
             return 0;
         }
         if (offset >= length()) {
             return lineCount() - 1;
         }
         
-        var arrayIndex = findArrayIndex(i -> abs(newLines.get(i)[0]), newLines.size(), offset);
-        if (arrayIndex >= newLines.size()) {
-            return knownLineCount();
-        }
-        
-        var array    = newLines.get(arrayIndex);
-        var endIndex = (arrayIndex == newLines.size() - 1) ? latestInArray : ARRAY_LENGTH;
-        return findLineNumber(i -> abs(array[i]), endIndex, offset);
-    }
-    
-    // Binary search for the best index of a newline array where the offset is located.
-    private int findArrayIndex(IntUnaryOperator newlineOffsets, int stopIndex, int offset) {
-        return findIndex(newlineOffsets, stopIndex, offset, true);
-    }
-    
-    // Binary search for the best index of a newline offset -- use to find the best line number.
-    private int findLineNumber(IntUnaryOperator newlineOffsets, int lastNewLineIndex, int offset) {
-        return findIndex(newlineOffsets, lastNewLineIndex, offset, false);
-    }
-    
-    private int findIndex(IntUnaryOperator newlineOffsets, int stopIndex, int offset, boolean returnSteps) {
-        int left = 0;
-        int right = stopIndex - 1;
-        int steps = 0;
-        
-        while (left <= right) {
-            int mid = left + (right - left) / 2;
-            steps++;
-            
-            int midValue = newlineOffsets.applyAsInt(mid);
-            if (midValue == offset) {
-                return returnSteps ? 0 : mid;
-            }
-            
-            if (midValue < offset) {
-                left = mid + 1;
-            } else {
-                right = mid - 1;
-            }
-        }
-        
-        return returnSteps ? steps - 1 : left;
+        int index = newLines.indexOf(offset);
+        return index;
     }
     
     /**

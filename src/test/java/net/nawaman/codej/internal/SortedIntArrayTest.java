@@ -141,34 +141,34 @@ class SortedIntArrayTest {
     void testCount() {
         // Negative values are allowed as long as they are its absolute value larger than the previous
         var array = new SortedAbsoluteIntArray(4, 4);
-        assertEquals(0, array.count());
+        assertEquals(0, array.length());
         
         array.add(10);
-        assertEquals(1, array.count());
+        assertEquals(1, array.length());
         
         array.add(-21);
-        assertEquals(2, array.count());
+        assertEquals(2, array.length());
         
         array.add(32);
-        assertEquals(3, array.count());
+        assertEquals(3, array.length());
         
         array.add(43);
-        assertEquals(4, array.count());
+        assertEquals(4, array.length());
         
         array.add(54);
-        assertEquals(5, array.count());
+        assertEquals(5, array.length());
         
         array.add(-65);
-        assertEquals(6, array.count());
+        assertEquals(6, array.length());
         
         array.add(76);
-        assertEquals(7, array.count());
+        assertEquals(7, array.length());
         
         array.add(87);
-        assertEquals(8, array.count());
+        assertEquals(8, array.length());
         
         array.add(98);
-        assertEquals(9, array.count());
+        assertEquals(9, array.length());
         
         assertEquals("[[10, -21, 32, 43], [54, -65, 76, 87], [98, 0, 0, 0]]", array.xray());
         assertEquals("[10, -21, 32, 43, 54, -65, 76, 87, 98]",                array.values().toString());
