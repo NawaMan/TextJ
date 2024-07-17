@@ -1,4 +1,4 @@
-package net.nawaman.codej;
+package net.nawaman.textj;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import net.nawaman.codej.formatter.RulerOneLine;
+import net.nawaman.textj.formatter.RulerOneLine;
 
 class RulerOneLineTest {
     

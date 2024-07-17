@@ -1,45 +1,45 @@
-package net.nawaman.codej.formatter;
+package net.nawaman.textj.formatter;
 
 import static java.lang.Math.ceil;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 import static java.util.stream.IntStream.rangeClosed;
-import static net.nawaman.codej.formatter.RulerOneLine.oneLineRuler;
-import static net.nawaman.codej.formatter.RulerTwoLine.bottomTwoLineRuler;
-import static net.nawaman.codej.formatter.RulerTwoLine.topTwoLineRuler;
+import static net.nawaman.textj.formatter.RulerOneLine.oneLineRuler;
+import static net.nawaman.textj.formatter.RulerTwoLine.bottomTwoLineRuler;
+import static net.nawaman.textj.formatter.RulerTwoLine.topTwoLineRuler;
 
 import java.util.List;
 
 import functionalj.function.Func2;
-import net.nawaman.codej.Code;
+import net.nawaman.textj.Text;
 
 /**
  * A code segment formatter.which displays with VT100 code.
  */
-public class CodeSegmentPlainTextFormatter extends CodeSegmentFormatter {
+public class SegmentPlainTextFormatter extends SegmentFormatter {
     
     /** The segment creator. */
-    public static final Func2<Code, Boolean, CodeSegmentFormatter> segmentCreator 
-                = (code, isOneLineRuler) -> new CodeSegmentPlainTextFormatter(code, isOneLineRuler != Boolean.FALSE);
+    public static final Func2<Text, Boolean, SegmentFormatter> segmentCreator 
+                = (code, isOneLineRuler) -> new SegmentPlainTextFormatter(code, isOneLineRuler != Boolean.FALSE);
     
     /** The segment creator. */
-    public static final Func2<Code, Boolean, CodeSegmentFormatter> plainTextSegmentCreator = segmentCreator;
+    public static final Func2<Text, Boolean, SegmentFormatter> plainTextSegmentCreator = segmentCreator;
                 
     private final RulerGenerator topRuler;
     private final RulerGenerator bottomRuler;
     
-    public CodeSegmentPlainTextFormatter(Code code) {
+    public SegmentPlainTextFormatter(Text code) {
         this(code, false);
     }
     
-    public CodeSegmentPlainTextFormatter(Code code, boolean isOneLineRuler) {
+    public SegmentPlainTextFormatter(Text code, boolean isOneLineRuler) {
         super(code);
         topRuler    = isOneLineRuler ? oneLineRuler : topTwoLineRuler;
         bottomRuler = isOneLineRuler ? oneLineRuler : bottomTwoLineRuler;
     }
     
     @Override
-    public CharSequence byLines(int firstLine, int lastLine, List<CodeHighLight> highlights) {
+    public CharSequence byLines(int firstLine, int lastLine, List<HighLight> highlights) {
         code.processToLineCount(lastLine);
         lastLine = min(lastLine, code.knownLineCount());
         

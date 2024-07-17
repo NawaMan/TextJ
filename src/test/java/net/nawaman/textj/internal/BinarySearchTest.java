@@ -1,6 +1,6 @@
-package net.nawaman.codej.internal;
+package net.nawaman.textj.internal;
 
-import static net.nawaman.codej.internal.BinarySearch.findIndex;
+import static net.nawaman.textj.internal.BinarySearch.findIndex;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.function.IntFunction;

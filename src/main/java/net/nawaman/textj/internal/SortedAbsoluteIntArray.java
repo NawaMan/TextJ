@@ -1,9 +1,9 @@
-package net.nawaman.codej.internal;
+package net.nawaman.textj.internal;
 
 import static java.lang.Math.abs;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
-import static net.nawaman.codej.internal.BinarySearch.findIndex;
+import static net.nawaman.textj.internal.BinarySearch.findIndex;
 
 import java.util.ArrayList;
 import java.util.List;

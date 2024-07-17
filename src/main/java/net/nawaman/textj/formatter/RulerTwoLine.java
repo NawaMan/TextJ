@@ -1,4 +1,4 @@
-package net.nawaman.codej.formatter;
+package net.nawaman.textj.formatter;
 
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -62,7 +62,7 @@ public class RulerTwoLine implements RulerGenerator {
             
             appendColumns(buffer, linePrefix, width);
         }
-    }   
+    }
     
     private void appendColumnPrefix(StringBuilder buffer, String linePrefix) {
         buffer.append(linePrefix);
@@ -79,7 +79,7 @@ public class RulerTwoLine implements RulerGenerator {
     
     private void appendLine(StringBuilder buffer, String linePrefix, int lineWidth) {
         appendLinePrefix(buffer, linePrefix);
-        buffer.append(lineCache  .computeIfAbsent(lineWidth, __ -> lineRuler.substring(0, lineWidth)));
+        buffer.append(lineCache.computeIfAbsent(lineWidth, __ -> lineRuler.substring(0, lineWidth)));
     }
     
 }

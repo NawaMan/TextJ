@@ -1,4 +1,4 @@
-package net.nawaman.codej.formatter;
+package net.nawaman.textj.formatter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -7,27 +7,25 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import net.nawaman.codej.Code;
+import net.nawaman.textj.Text;
 
-public class CodeSegmentFormatterTest {
+public class SegmentFormatterTest {
     
-    private Code         code         = new Code("first line\n second line\n third line\nforth line", 4);
+    private Text code = new Text("first line\n second line\n third line\nforth line", 4);
     private StringBuffer byLinesCalls = new StringBuffer();
     
-    private CodeSegmentFormatter formatter;
+    private SegmentFormatter formatter;
     
     @BeforeEach
     public void setUp() {
-        formatter = new CodeSegmentFormatter(code) {
+        formatter = new SegmentFormatter(code) {
             @Override
-            public CharSequence byLines(int firstLine, int lastLine, List<CodeHighLight> highlights) {
-                byLinesCalls
-                    .append("Call: firstLine: %d, lastLine: %d".formatted(firstLine, lastLine));
+            public CharSequence byLines(int firstLine, int lastLine, List<HighLight> highlights) {
+                byLinesCalls.append("Call: firstLine: %d, lastLine: %d".formatted(firstLine, lastLine));
                 
                 if (!highlights.isEmpty()) {
-                    byLinesCalls
-                        .append(", highlights:")
-                        .append(highlights.stream().map(h -> "  %s".formatted(h)).reduce("", (a, b) -> a + "\n" + b));
+                    byLinesCalls.append(", highlights:").append(
+                            highlights.stream().map(h -> "  %s".formatted(h)).reduce("", (a, b) -> a + "\n" + b));
                 }
                 return "mocked byLines result";
             }
@@ -51,7 +49,7 @@ public class CodeSegmentFormatterTest {
     
     @Test
     public void testByOffset() {
-        formatter.byOffset(15, new CodeHighLight(0,  5, 0));
+        formatter.byOffset(15, new HighLight(0, 5, 0));
         
         var expected = """
                 Call: firstLine: 0, lastLine: 2, highlights:
@@ -62,10 +60,7 @@ public class CodeSegmentFormatterTest {
     
     @Test
     public void testByOffsets() {
-        formatter.byOffsets(0, 10,
-                new CodeHighLight(0,  5, 0),
-                new CodeHighLight(6, 10, 1)
-        );
+        formatter.byOffsets(0, 10, new HighLight(0, 5, 0), new HighLight(6, 10, 1));
         
         var expected = """
                 Call: firstLine: 0, lastLine: 1, highlights:
@@ -79,7 +74,7 @@ public class CodeSegmentFormatterTest {
     public void testByOffsets_negativeStartOffset() {
         formatter.byOffsets(-5, 20);
         
-        var expected = "Call: firstLine: 0, lastLine: 2";   // The first line will be set to 0
+        var expected = "Call: firstLine: 0, lastLine: 2"; // The first line will be set to 0
         assertEquals(expected.trim(), byLinesCalls.toString());
     }
     
@@ -87,7 +82,7 @@ public class CodeSegmentFormatterTest {
     public void testByOffsets_negativeEndOffset() {
         formatter.byOffsets(5, -20);
         
-        var expected = "Call: firstLine: 0, lastLine: 1";   // The last line will be set to the first line (but +1)
+        var expected = "Call: firstLine: 0, lastLine: 1"; // The last line will be set to the first line (but +1)
         assertEquals(expected.trim(), byLinesCalls.toString());
     }
     
@@ -95,7 +90,7 @@ public class CodeSegmentFormatterTest {
     public void testByOffsets_endOffsetLessThanFirstOffset() {
         formatter.byOffsets(20, 5);
         
-        var expected = "Call: firstLine: 0, lastLine: 2";   // The first and last lines will be swapped.
+        var expected = "Call: firstLine: 0, lastLine: 2"; // The first and last lines will be swapped.
         assertEquals(expected.trim(), byLinesCalls.toString());
     }
     
@@ -111,7 +106,7 @@ public class CodeSegmentFormatterTest {
     public void testByLine_negativeFirstLine() {
         formatter.byLine(-1, 3);
         
-        var expected = "Call: firstLine: 0, lastLine: 3";   // The first line will be set to 0
+        var expected = "Call: firstLine: 0, lastLine: 3"; // The first line will be set to 0
         assertEquals(expected.trim(), byLinesCalls.toString());
     }
     
@@ -119,7 +114,7 @@ public class CodeSegmentFormatterTest {
     public void testByLine_negativeLastLine() {
         formatter.byLine(1, -3);
         
-        var expected = "Call: firstLine: 1, lastLine: 1";   // The last line will be set to the first line
+        var expected = "Call: firstLine: 1, lastLine: 1"; // The last line will be set to the first line
         assertEquals(expected.trim(), byLinesCalls.toString());
     }
     
@@ -127,13 +122,13 @@ public class CodeSegmentFormatterTest {
     public void testByLine_lastLineLessThanFirstLine() {
         formatter.byLine(3, 1);
         
-        var expected = "Call: firstLine: 1, lastLine: 3";   // The first and last lines will be swapped.
+        var expected = "Call: firstLine: 1, lastLine: 3"; // The first and last lines will be swapped.
         assertEquals(expected.trim(), byLinesCalls.toString());
     }
     
     @Test
     public void testByLines() {
-        formatter.byLines(1, 3, new CodeHighLight(0,  5, 0));
+        formatter.byLines(1, 3, new HighLight(0, 5, 0));
         
         var expected = """
                 Call: firstLine: 1, lastLine: 3, highlights:

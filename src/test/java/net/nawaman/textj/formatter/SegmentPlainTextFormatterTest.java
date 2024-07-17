@@ -1,15 +1,15 @@
-package net.nawaman.codej.formatter;
+package net.nawaman.textj.formatter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
-import net.nawaman.codej.Code;
+import net.nawaman.textj.Text;
 
-class CodeSegmentPlainTextFormatterTest {
+class SegmentPlainTextFormatterTest {
     
-    Code                 code      = new Code("first line\nsecond line\nthird line\nfourth line\nfifth line\nsixth line");
-    CodeSegmentFormatter formatter = new CodeSegmentPlainTextFormatter(code);
+    Text                 code      = new Text("first line\nsecond line\nthird line\nfourth line\nfifth line\nsixth line");
+    SegmentFormatter formatter = new SegmentPlainTextFormatter(code);
     
     @Test
     void testFirst() {
@@ -63,7 +63,7 @@ class CodeSegmentPlainTextFormatterTest {
     
     @Test
     void testOneRuler() {
-        formatter = new CodeSegmentPlainTextFormatter(code, true);
+        formatter = new SegmentPlainTextFormatter(code, true);
         var expected = """
                 ----|----+---10----+---20----+---30----+---40----+---50----+---60----+---70----+---80
                   1 |first line

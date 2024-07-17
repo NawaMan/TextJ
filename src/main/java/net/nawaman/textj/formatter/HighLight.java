@@ -1,11 +1,11 @@
-package net.nawaman.codej.formatter;
+package net.nawaman.textj.formatter;
 
 /**
  * CodeHighLight represent a highlight in the code.
  */
-public record CodeHighLight(int startOffset, int endOffset, int color) {
+public record HighLight(int startOffset, int endOffset, int color) {
     
-    public CodeHighLight {
+    public HighLight {
         if (startOffset < 0) {
             var message = "Start offset must be greater than or equal to 0. startOffset=" + startOffset;
             throw new IllegalArgumentException(message);

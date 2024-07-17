@@ -1,16 +1,16 @@
-package net.nawaman.codej.formatter;
+package net.nawaman.textj.formatter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
-import net.nawaman.codej.Code;
+import net.nawaman.textj.Text;
 
 
-class CodeSegmentVT100FormatterTest {
+class SegmentVT100FormatterTest {
     
-    Code                 code      = new Code("0123\n012345678\n01234567890123\n0123456789012345678\r01234567890123456789012\r\n012345678901234567890123456789");
-    CodeSegmentFormatter formatter = new CodeSegmentVT100Formatter(code);
+    Text                 code      = new Text("0123\n012345678\n01234567890123\n0123456789012345678\r01234567890123456789012\r\n012345678901234567890123456789");
+    SegmentFormatter formatter = new SegmentVT100Formatter(code);
     
     boolean printActual = false;
     
@@ -132,8 +132,8 @@ class CodeSegmentVT100FormatterTest {
             }
         }
         """.replaceFirst("\n", "\r\n");
-    Code javaCode = new Code(javaContent);
-    CodeSegmentFormatter javaFormatter = new CodeSegmentVT100Formatter(javaCode);
+    Text javaCode = new Text(javaContent);
+    SegmentFormatter javaFormatter = new SegmentVT100Formatter(javaCode);
     
     @Test
     void testHighLights() {
@@ -159,12 +159,12 @@ class CodeSegmentVT100FormatterTest {
                 ----|----+----|----+----|----+----|----+----|----+----|----+----|----+----|----+----|
                     |        10        20        30        40        50        60        70        80
                 """;
-        var inlineHighlight        = new CodeHighLight( 83,  96, 0);
-        var crossLineHighlight     = new CodeHighLight(135, 154, 2);
-        var endAtLineHighlight     = new CodeHighLight(162, 168, 3);
-        var startAtLineHighlight   = new CodeHighLight(230, 243, 4);
-        var multipleLinesHighlight = new CodeHighLight(280, 400, 5);
-        var outOfOrderHighlight    = new CodeHighLight( 13,  27, 6);
+        var inlineHighlight        = new HighLight( 83,  96, 0);
+        var crossLineHighlight     = new HighLight(135, 154, 2);
+        var endAtLineHighlight     = new HighLight(162, 168, 3);
+        var startAtLineHighlight   = new HighLight(230, 243, 4);
+        var multipleLinesHighlight = new HighLight(280, 400, 5);
+        var outOfOrderHighlight    = new HighLight( 13,  27, 6);
         var actual = javaFormatter.byLines(0, Integer.MAX_VALUE, 
                 inlineHighlight,
                 crossLineHighlight,

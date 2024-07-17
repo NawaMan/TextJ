@@ -4,14 +4,14 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     
-    <groupId>net.nawaman.codej</groupId>
-    <artifactId>codej</artifactId>
+    <groupId>net.nawaman.textj</groupId>
+    <artifactId>textj</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     
-    <name>CodeJ</name>
+    <name>TextJ</name>
     
     <description>
-        NawaMan's Libray for managing code.
+        NawaMan's Libray for managing text.
     </description>
     
     <properties>

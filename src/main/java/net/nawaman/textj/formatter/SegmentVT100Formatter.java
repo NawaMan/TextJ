@@ -1,12 +1,12 @@
-package net.nawaman.codej.formatter;
+package net.nawaman.textj.formatter;
 
 import static java.lang.Math.ceil;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 import static java.util.stream.IntStream.rangeClosed;
-import static net.nawaman.codej.formatter.RulerOneLine.oneLineRuler;
-import static net.nawaman.codej.formatter.RulerTwoLine.bottomTwoLineRuler;
-import static net.nawaman.codej.formatter.RulerTwoLine.topTwoLineRuler;
+import static net.nawaman.textj.formatter.RulerOneLine.oneLineRuler;
+import static net.nawaman.textj.formatter.RulerTwoLine.bottomTwoLineRuler;
+import static net.nawaman.textj.formatter.RulerTwoLine.topTwoLineRuler;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -14,17 +14,17 @@ import java.util.List;
 
 import functionalj.function.Func2;
 import functionalj.list.FuncList;
-import net.nawaman.codej.Code;
+import net.nawaman.textj.Text;
 
 /**
  * A code segment formatter.which displays with VT100 code.
  */
-public class CodeSegmentVT100Formatter extends CodeSegmentFormatter {
+public class SegmentVT100Formatter extends SegmentFormatter {
     
-    public static final Func2<Code, Boolean, CodeSegmentFormatter> segmentCreator 
-                = (code, isOneLineRuler) -> new CodeSegmentVT100Formatter(code, isOneLineRuler != Boolean.FALSE);
+    public static final Func2<Text, Boolean, SegmentFormatter> segmentCreator 
+                = (code, isOneLineRuler) -> new SegmentVT100Formatter(code, isOneLineRuler != Boolean.FALSE);
                 
-    public static final Func2<Code, Boolean, CodeSegmentFormatter> vt100SegmentCreator = segmentCreator;
+    public static final Func2<Text, Boolean, SegmentFormatter> vt100SegmentCreator = segmentCreator;
     
     private static final String           VT100_HIGHLIGHT_END    = "\u001B[0m";
     private static final FuncList<String> VT100_HIGHLIGHT_STARTS = FuncList.of(
@@ -47,18 +47,18 @@ public class CodeSegmentVT100Formatter extends CodeSegmentFormatter {
     private final RulerGenerator topRuler;
     private final RulerGenerator bottomRuler;
     
-    public CodeSegmentVT100Formatter(Code code) {
+    public SegmentVT100Formatter(Text code) {
         this(code, false);
     }
     
-    public CodeSegmentVT100Formatter(Code code, boolean isOneLineRuler) {
+    public SegmentVT100Formatter(Text code, boolean isOneLineRuler) {
         super(code);
         topRuler    = isOneLineRuler ? oneLineRuler : topTwoLineRuler;
         bottomRuler = isOneLineRuler ? oneLineRuler : bottomTwoLineRuler;
     }
     
     @Override
-    public CharSequence byLines(int firstLine, int lastLine, List<CodeHighLight> highlights) {
+    public CharSequence byLines(int firstLine, int lastLine, List<HighLight> highlights) {
         code.processToLineCount(lastLine);
         lastLine = min(lastLine, code.knownLineCount());
         
@@ -99,11 +99,11 @@ public class CodeSegmentVT100Formatter extends CodeSegmentFormatter {
         return maxColumn;
     }
     
-    private String highLightLine(List<CodeHighLight> codehighlights, String codeLine, int lineStartOffset, int lineEndOffset) {
+    private String highLightLine(List<HighLight> codehighlights, String codeLine, int lineStartOffset, int lineEndOffset) {
         var highlights = new ArrayList<>(codehighlights);
-        highlights.sort(Comparator.<CodeHighLight>comparingInt(h -> h.startOffset()).thenComparingInt(h -> h.endOffset()));
+        highlights.sort(Comparator.<HighLight>comparingInt(h -> h.startOffset()).thenComparingInt(h -> h.endOffset()));
         
-        var segments = new ArrayList<CodeHighLight>();
+        var segments = new ArrayList<HighLight>();
         int currentPos = 0;
         
         for (int h = 0; h < highlights.size(); h++) {
@@ -114,14 +114,14 @@ public class CodeSegmentVT100Formatter extends CodeSegmentFormatter {
             if (startOffset >= codeLine.length() || endOffset <= 0) continue;
             
             if (currentPos < startOffset) {
-                segments.add(new CodeHighLight(currentPos, startOffset, -1)); // -1 for no highlight
+                segments.add(new HighLight(currentPos, startOffset, -1)); // -1 for no highlight
             }
-            segments.add(new CodeHighLight(startOffset, endOffset, h));
+            segments.add(new HighLight(startOffset, endOffset, h));
             currentPos = Math.max(currentPos, endOffset);
         }
         
         if (currentPos < codeLine.length()) {
-            segments.add(new CodeHighLight(currentPos, codeLine.length(), -1));
+            segments.add(new HighLight(currentPos, codeLine.length(), -1));
         }
         
         var result = new StringBuilder();

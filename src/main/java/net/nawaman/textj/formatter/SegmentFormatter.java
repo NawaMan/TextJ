@@ -1,4 +1,4 @@
-package net.nawaman.codej.formatter;
+package net.nawaman.textj.formatter;
 
 import static java.lang.Math.max;
 import static java.lang.Math.min;
@@ -6,19 +6,19 @@ import static java.lang.Math.min;
 import java.util.List;
 
 import functionalj.list.FuncList;
-import net.nawaman.codej.Code;
+import net.nawaman.textj.Text;
 
 /**
  * A code segment formatter.
  */
-public abstract class CodeSegmentFormatter {
+public abstract class SegmentFormatter {
     
-    protected final Code   code;
+    protected final Text   code;
     protected final String content;
     protected final int    tabSize;
     
     /** Constructs a new CodeSegmentFormatter */
-    public CodeSegmentFormatter(Code code) {
+    public SegmentFormatter(Text code) {
         this.code    = code;
         this.content = code.content();
         
@@ -26,7 +26,7 @@ public abstract class CodeSegmentFormatter {
     }
     
     /** @return  the code this segment */
-    public final Code code() {
+    public final Text code() {
         return code;
     }
     
@@ -41,24 +41,24 @@ public abstract class CodeSegmentFormatter {
     }
     
     /** @return  the start offset of this segment. */
-    public final CharSequence byOffset(int startOffset, CodeHighLight ... highlights) {
+    public final CharSequence byOffset(int startOffset, HighLight ... highlights) {
         var list = FuncList.from(highlights);
         return byOffset(startOffset, list);
     }
     
     /** @return  the start offset of this segment. */
-    public final CharSequence byOffset(int startOffset, List<CodeHighLight> highlights) {
+    public final CharSequence byOffset(int startOffset, List<HighLight> highlights) {
         return byOffsets(startOffset, startOffset, highlights);
     }
     
     /** @return  the segment from the start offset to the end offset. */
-    public final CharSequence byOffsets(int startOffset, int endOffset, CodeHighLight ... highlights) {
+    public final CharSequence byOffsets(int startOffset, int endOffset, HighLight ... highlights) {
         var list = FuncList.from(highlights);
         return byOffsets(startOffset, endOffset, list);
     }
     
     /** @return  the segment from the start offset to the end offset. */
-    public final CharSequence byOffsets(int startOffset, int endOffset, List<CodeHighLight> highlights) {
+    public final CharSequence byOffsets(int startOffset, int endOffset, List<HighLight> highlights) {
         if (startOffset < 0)
             startOffset = 0;
         if (endOffset < 0)
@@ -95,12 +95,12 @@ public abstract class CodeSegmentFormatter {
     }
     
     /** @return  the segment from the start offset to the end offset. */
-    public final CharSequence byLines(int firstLine, int lastLine, CodeHighLight ... highlights) {
+    public final CharSequence byLines(int firstLine, int lastLine, HighLight ... highlights) {
         var list = FuncList.from(highlights);
         return byLines(firstLine, lastLine, list);
     }
     
     /** @return  the segment from the start offset to the end offset */
-    public abstract CharSequence byLines(int firstLine, int lastLine, List<CodeHighLight> highlights);
+    public abstract CharSequence byLines(int firstLine, int lastLine, List<HighLight> highlights);
     
 }

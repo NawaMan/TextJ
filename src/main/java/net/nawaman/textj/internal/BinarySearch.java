@@ -1,4 +1,4 @@
-package net.nawaman.codej.internal;
+package net.nawaman.textj.internal;
 
 import static java.lang.Math.max;
 
