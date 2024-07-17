@@ -53,7 +53,7 @@ public class SegmentFormatterTest {
         
         var expected = """
                 Call: firstLine: 0, lastLine: 2, highlights:
-                  CodeHighLight[startOffset=0, endOffset=5, color=0]
+                  HighLight[startOffset=0, endOffset=5, color=0]
                 """;
         assertEquals(expected.trim(), byLinesCalls.toString());
     }
@@ -64,8 +64,8 @@ public class SegmentFormatterTest {
         
         var expected = """
                 Call: firstLine: 0, lastLine: 1, highlights:
-                  CodeHighLight[startOffset=0, endOffset=5, color=0]
-                  CodeHighLight[startOffset=6, endOffset=10, color=1]
+                  HighLight[startOffset=0, endOffset=5, color=0]
+                  HighLight[startOffset=6, endOffset=10, color=1]
                 """;
         assertEquals(expected.trim(), byLinesCalls.toString());
     }
@@ -132,7 +132,7 @@ public class SegmentFormatterTest {
         
         var expected = """
                 Call: firstLine: 1, lastLine: 3, highlights:
-                  CodeHighLight[startOffset=0, endOffset=5, color=0]
+                  HighLight[startOffset=0, endOffset=5, color=0]
                 """;
         assertEquals(expected.trim(), byLinesCalls.toString());
     }

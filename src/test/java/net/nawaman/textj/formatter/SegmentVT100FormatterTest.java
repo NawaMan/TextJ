@@ -9,7 +9,7 @@ import net.nawaman.textj.Text;
 
 class SegmentVT100FormatterTest {
     
-    Text                 code      = new Text("0123\n012345678\n01234567890123\n0123456789012345678\r01234567890123456789012\r\n012345678901234567890123456789");
+    Text             code      = new Text("0123\n012345678\n01234567890123\n0123456789012345678\r01234567890123456789012\r\n012345678901234567890123456789");
     SegmentFormatter formatter = new SegmentVT100Formatter(code);
     
     boolean printActual = false;
@@ -132,12 +132,12 @@ class SegmentVT100FormatterTest {
             }
         }
         """.replaceFirst("\n", "\r\n");
-    Text javaCode = new Text(javaContent);
+    
+    Text             javaCode      = new Text(javaContent);
     SegmentFormatter javaFormatter = new SegmentVT100Formatter(javaCode);
     
     @Test
     void testHighLights() {
-        printActual = true;
         var expected = """
                     |        10        20        30        40        50        60        70        80
                 ----|----+----|----+----|----+----|----+----|----+----|----+----|----+----|----+----|
@@ -177,7 +177,6 @@ class SegmentVT100FormatterTest {
             System.out.println("-- %s --".formatted("testHighLights"));
             System.out.println(actual);
         }
-        System.out.println("\r\n");
         assertEquals(expected, actual);
     }
     
