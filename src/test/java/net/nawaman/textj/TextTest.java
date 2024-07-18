@@ -22,9 +22,9 @@ class TextTest {
     @Test
     void testContent() {
         var content = "first line\nsecond line\nthird line";
-        var code    = new Text(content);
-        assertEquals(content,          code.content());
-        assertEquals(content.length(), code.length());
+        var text    = new Text(content);
+        assertEquals(content,          text.content());
+        assertEquals(content.length(), text.length());
     }
     
     //== Primitive feature ==
@@ -55,25 +55,25 @@ class TextTest {
     @Test
     void testBasic_noTail() {
         var content = "first\nsecond\nthird\nforth";
-        var code    = new Text(content);
-        assertEquals(4,             code.lineCount());
-        assertEquals(3,             code.knownLineCount());
-        assertEquals("[5, 12, 18]", code.newlineOffsets().toString());
+        var text    = new Text(content);
+        assertEquals(4,             text.lineCount());
+        assertEquals(3,             text.knownLineCount());
+        assertEquals("[5, 12, 18]", text.newlineOffsets().toString());
         assertEquals(
                 "[first, second, third, forth]",
-                code.lines().toString());
+                text.lines().toString());
     }
     
     @Test
     void testBasic_withTail() {
         var content = "first\nsecond\nthird\nforth\n";
-        var code    = new Text(content);
-        assertEquals(5,                 code.lineCount());
-        assertEquals(4,                 code.knownLineCount());
-        assertEquals("[5, 12, 18, 24]", code.newlineOffsets().toString());
+        var text    = new Text(content);
+        assertEquals(5,                 text.lineCount());
+        assertEquals(4,                 text.knownLineCount());
+        assertEquals("[5, 12, 18, 24]", text.newlineOffsets().toString());
         assertEquals(
                 "[first, second, third, forth, ]",
-                code.lines().toString());
+                text.lines().toString());
     }
     
     @Test
@@ -81,81 +81,81 @@ class TextTest {
         //             000000 1111111 222222 33333
         //             012345 6789012 345678 90123
         var content = "first\nsecond\nthird\nforth";
-        var code    = new Text(content);
+        var text    = new Text(content);
         
-        assertEquals(24, code.length());
+        assertEquals(24, text.length());
         
-        assertEquals(0, code.knownLineCount());
+        assertEquals(0, text.knownLineCount());
         
-        code.processLinesToOffset(0);
-        assertEquals(0, code.knownLineCount());
+        text.processLinesToOffset(0);
+        assertEquals(0, text.knownLineCount());
         
-        code.processLinesToOffset(2);
-        assertEquals(1, code.knownLineCount());
+        text.processLinesToOffset(2);
+        assertEquals(1, text.knownLineCount());
         
-        code.processLinesToOffset(5);
-        assertEquals(1, code.knownLineCount());
-        code.processLinesToOffset(6);
-        assertEquals(2, code.knownLineCount());
+        text.processLinesToOffset(5);
+        assertEquals(1, text.knownLineCount());
+        text.processLinesToOffset(6);
+        assertEquals(2, text.knownLineCount());
         
-        code.processLinesToOffset(12);
-        assertEquals(2, code.knownLineCount());
-        code.processLinesToOffset(13);
-        assertEquals(3, code.knownLineCount());
+        text.processLinesToOffset(12);
+        assertEquals(2, text.knownLineCount());
+        text.processLinesToOffset(13);
+        assertEquals(3, text.knownLineCount());
         
-        code.processLinesToOffset(18);
-        assertEquals(3, code.knownLineCount());
-        code.processLinesToOffset(19);
-        assertEquals(3, code.knownLineCount());
+        text.processLinesToOffset(18);
+        assertEquals(3, text.knownLineCount());
+        text.processLinesToOffset(19);
+        assertEquals(3, text.knownLineCount());
         
-        code.processLinesToOffset(24);
-        assertEquals(3, code.knownLineCount());
-        code.processLinesToOffset(25);
-        assertEquals(3, code.knownLineCount());
+        text.processLinesToOffset(24);
+        assertEquals(3, text.knownLineCount());
+        text.processLinesToOffset(25);
+        assertEquals(3, text.knownLineCount());
         
-        code.processLinesToOffset(Integer.MAX_VALUE);
-        assertEquals(3, code.knownLineCount());
+        text.processLinesToOffset(Integer.MAX_VALUE);
+        assertEquals(3, text.knownLineCount());
     }
     
     @Test
     void testBasic_withTail_ensureOffset() {
         var content = "first\nsecond\nthird\nforth\n";
-        var code    = new Text(content);
+        var text    = new Text(content);
         
-        assertEquals(25, code.length());
+        assertEquals(25, text.length());
         
-        assertEquals(0, code.knownLineCount());
+        assertEquals(0, text.knownLineCount());
         
-        code.processLinesToOffset(0);
-        assertEquals(0, code.knownLineCount());
+        text.processLinesToOffset(0);
+        assertEquals(0, text.knownLineCount());
         
-        code.processLinesToOffset(2);
-        assertEquals(1, code.knownLineCount());
+        text.processLinesToOffset(2);
+        assertEquals(1, text.knownLineCount());
         
-        code.processLinesToOffset(5);
-        assertEquals(1, code.knownLineCount());
-        code.processLinesToOffset(6);
-        assertEquals(2, code.knownLineCount());
+        text.processLinesToOffset(5);
+        assertEquals(1, text.knownLineCount());
+        text.processLinesToOffset(6);
+        assertEquals(2, text.knownLineCount());
         
-        code.processLinesToOffset(12);
-        assertEquals(2, code.knownLineCount());
-        code.processLinesToOffset(13);
-        assertEquals(3, code.knownLineCount());
+        text.processLinesToOffset(12);
+        assertEquals(2, text.knownLineCount());
+        text.processLinesToOffset(13);
+        assertEquals(3, text.knownLineCount());
         
-        code.processLinesToOffset(18);
-        assertEquals(3, code.knownLineCount());
-        code.processLinesToOffset(19);
-        assertEquals(4, code.knownLineCount());
+        text.processLinesToOffset(18);
+        assertEquals(3, text.knownLineCount());
+        text.processLinesToOffset(19);
+        assertEquals(4, text.knownLineCount());
         
-        code.processLinesToOffset(24);
-        assertEquals(4, code.knownLineCount());
-        code.processLinesToOffset(25);
-        assertEquals(4, code.knownLineCount());
-        code.processLinesToOffset(26);
-        assertEquals(4, code.knownLineCount());
+        text.processLinesToOffset(24);
+        assertEquals(4, text.knownLineCount());
+        text.processLinesToOffset(25);
+        assertEquals(4, text.knownLineCount());
+        text.processLinesToOffset(26);
+        assertEquals(4, text.knownLineCount());
         
-        code.processLinesToOffset(Integer.MAX_VALUE);
-        assertEquals(4, code.knownLineCount());
+        text.processLinesToOffset(Integer.MAX_VALUE);
+        assertEquals(4, text.knownLineCount());
     }
     
     //== Step ==
@@ -163,71 +163,71 @@ class TextTest {
     @Test
     void testStep_noTail() {
         var content = "first\nsecond\nthird\nforth";
-        var code    = new Text(content);
+        var text    = new Text(content);
         
-        assertEquals(0, code.processedOffset());
-        assertEquals(0, code.knownLineCount());
+        assertEquals(0, text.processedOffset());
+        assertEquals(0, text.knownLineCount());
         
-        assertEquals("[]", code.lines().limit(0).toString());
-        assertEquals(0,    code.processedOffset());
-        assertEquals(0,    code.knownLineCount());
+        assertEquals("[]", text.lines().limit(0).toString());
+        assertEquals(0,    text.processedOffset());
+        assertEquals(0,    text.knownLineCount());
         
-        assertEquals("[first]", code.lines().limit(1).toString());
-        assertEquals(6,         code.processedOffset());
-        assertEquals(1,         code.knownLineCount());
+        assertEquals("[first]", text.lines().limit(1).toString());
+        assertEquals(6,         text.processedOffset());
+        assertEquals(1,         text.knownLineCount());
         
-        assertEquals("[first, second]", code.lines().limit(2).toString());
-        assertEquals(13,                code.processedOffset());
-        assertEquals(2,                 code.knownLineCount());
+        assertEquals("[first, second]", text.lines().limit(2).toString());
+        assertEquals(13,                text.processedOffset());
+        assertEquals(2,                 text.knownLineCount());
         
-        assertEquals("[first, second, third]", code.lines().limit(3).toString());
-        assertEquals(19,                       code.processedOffset());
-        assertEquals(3,                        code.knownLineCount());
+        assertEquals("[first, second, third]", text.lines().limit(3).toString());
+        assertEquals(19,                       text.processedOffset());
+        assertEquals(3,                        text.knownLineCount());
         
-        assertEquals("[first, second, third, forth]", code.lines().limit(4).toString());
-        assertEquals(24,                              code.processedOffset());
-        assertEquals(3,                               code.knownLineCount());
+        assertEquals("[first, second, third, forth]", text.lines().limit(4).toString());
+        assertEquals(24,                              text.processedOffset());
+        assertEquals(3,                               text.knownLineCount());
         
-        assertEquals("[first, second, third, forth]", code.lines().limit(5).toString());
-        assertEquals(24,                              code.processedOffset());
-        assertEquals(3,                               code.knownLineCount());
+        assertEquals("[first, second, third, forth]", text.lines().limit(5).toString());
+        assertEquals(24,                              text.processedOffset());
+        assertEquals(3,                               text.knownLineCount());
         
-        assertEquals("[first, second, third, forth]", code.lines().toString());
-        assertEquals(24,                              code.processedOffset());
-        assertEquals(3,                               code.knownLineCount());
+        assertEquals("[first, second, third, forth]", text.lines().toString());
+        assertEquals(24,                              text.processedOffset());
+        assertEquals(3,                               text.knownLineCount());
     }
     
     @Test
     void testStep_withTail() {
         var content = "first\nsecond\nthird\nforth\n";
-        var code    = new Text(content);
+        var text    = new Text(content);
         
-        assertEquals(0, code.processedOffset());
-        assertEquals(0, code.knownLineCount());
+        assertEquals(0, text.processedOffset());
+        assertEquals(0, text.knownLineCount());
         
-        assertEquals("[]", "" + code.lines().limit(0).toString());
-        assertEquals(0,    code.processedOffset());
-        assertEquals(0,    code.knownLineCount());
+        assertEquals("[]", "" + text.lines().limit(0).toString());
+        assertEquals(0,    text.processedOffset());
+        assertEquals(0,    text.knownLineCount());
         
-        assertEquals("[first]", code.lines().limit(1).toString());
-        assertEquals(6,         code.processedOffset());
-        assertEquals(1,         code.knownLineCount());
+        assertEquals("[first]", text.lines().limit(1).toString());
+        assertEquals(6,         text.processedOffset());
+        assertEquals(1,         text.knownLineCount());
         
-        assertEquals("[first, second]", code.lines().limit(2).toString());
-        assertEquals(13,                code.processedOffset());
-        assertEquals(2,                 code.knownLineCount());
+        assertEquals("[first, second]", text.lines().limit(2).toString());
+        assertEquals(13,                text.processedOffset());
+        assertEquals(2,                 text.knownLineCount());
         
-        assertEquals("[first, second, third]", code.lines().limit(3).toString());
-        assertEquals(19,                       code.processedOffset());
-        assertEquals(3,                        code.knownLineCount());
+        assertEquals("[first, second, third]", text.lines().limit(3).toString());
+        assertEquals(19,                       text.processedOffset());
+        assertEquals(3,                        text.knownLineCount());
         
-        assertEquals("[first, second, third, forth]", code.lines().limit(4).toString());
-        assertEquals(25,                              code.processedOffset());
-        assertEquals(4,                               code.knownLineCount());
+        assertEquals("[first, second, third, forth]", text.lines().limit(4).toString());
+        assertEquals(25,                              text.processedOffset());
+        assertEquals(4,                               text.knownLineCount());
         
-        assertEquals("[first, second, third, forth, ]", code.lines().toString());
-        assertEquals(25,                                code.processedOffset());
-        assertEquals(4,                                 code.knownLineCount());
+        assertEquals("[first, second, third, forth, ]", text.lines().toString());
+        assertEquals(25,                                text.processedOffset());
+        assertEquals(4,                                 text.knownLineCount());
     }
     
     //== Linux ==
@@ -235,10 +235,10 @@ class TextTest {
     @Test
     void testBasic_linux() {
         var content = "first\nsecond\nthird\nforth";
-        var code    = new Text(content);
-        assertEquals(4,             code.lineCount());
-        assertEquals(3,             code.knownLineCount());
-        assertEquals("[5, 12, 18]", code.newlineOffsets().toString());
+        var text    = new Text(content);
+        assertEquals(4,             text.lineCount());
+        assertEquals(3,             text.knownLineCount());
+        assertEquals("[5, 12, 18]", text.newlineOffsets().toString());
         assertEquals(
                 "["
                 + "first, "
@@ -246,32 +246,32 @@ class TextTest {
                 + "third, "
                 + "forth"
                 + "]",
-                code.lines().toString());
+                text.lines().toString());
     }
     
     @Test
     void testBasic_linux_ensureOffset() {
         var content = "first\nsecond\nthird\n";
-        var code    = new Text(content);
-        assertEquals(0, code.knownLineCount());
+        var text    = new Text(content);
+        assertEquals(0, text.knownLineCount());
         
-        code.processLinesToOffset(3);
-        assertEquals(1, code.knownLineCount());
+        text.processLinesToOffset(3);
+        assertEquals(1, text.knownLineCount());
         
-        code.processLinesToOffset(5);
-        assertEquals(1, code.knownLineCount());
-        code.processLinesToOffset(6);
-        assertEquals(2, code.knownLineCount());
+        text.processLinesToOffset(5);
+        assertEquals(1, text.knownLineCount());
+        text.processLinesToOffset(6);
+        assertEquals(2, text.knownLineCount());
         
-        code.processLinesToOffset(12);
-        assertEquals(2, code.knownLineCount());
-        code.processLinesToOffset(13);
-        assertEquals(3, code.knownLineCount());
+        text.processLinesToOffset(12);
+        assertEquals(2, text.knownLineCount());
+        text.processLinesToOffset(13);
+        assertEquals(3, text.knownLineCount());
         
-        code.processLinesToOffset(18);
-        assertEquals(3, code.knownLineCount());
-        code.processLinesToOffset(19);
-        assertEquals(3, code.knownLineCount());
+        text.processLinesToOffset(18);
+        assertEquals(3, text.knownLineCount());
+        text.processLinesToOffset(19);
+        assertEquals(3, text.knownLineCount());
     }
     
     //== Mac ==
@@ -279,10 +279,10 @@ class TextTest {
     @Test
     void testBasic_mac() {
         var content = "first\rsecond\rthird\rforth\r";
-        var code    = new Text(content);
-        assertEquals(5,                 code.lineCount());
-        assertEquals(4,                 code.knownLineCount());
-        assertEquals("[5, 12, 18, 24]", code.newlineOffsets().toString());
+        var text    = new Text(content);
+        assertEquals(5,                 text.lineCount());
+        assertEquals(4,                 text.knownLineCount());
+        assertEquals("[5, 12, 18, 24]", text.newlineOffsets().toString());
         assertEquals(
                 "["
                 + "first, "
@@ -290,37 +290,37 @@ class TextTest {
                 + "third, "
                 + "forth, "
                 + "]",
-                code.lines().toString());
+                text.lines().toString());
     }
     
     @Test
     void testBasic_mac_ensureOffset() {
         var content = "first\rsecond\rthird\rforth\r";
-        var code    = new Text(content);
-        assertEquals(0, code.knownLineCount());
+        var text    = new Text(content);
+        assertEquals(0, text.knownLineCount());
         
-        code.processLinesToOffset(3);
-        assertEquals(1, code.knownLineCount());
+        text.processLinesToOffset(3);
+        assertEquals(1, text.knownLineCount());
         
-        code.processLinesToOffset(5);
-        assertEquals(1, code.knownLineCount());
-        code.processLinesToOffset(6);
-        assertEquals(2, code.knownLineCount());
+        text.processLinesToOffset(5);
+        assertEquals(1, text.knownLineCount());
+        text.processLinesToOffset(6);
+        assertEquals(2, text.knownLineCount());
         
-        code.processLinesToOffset(12);
-        assertEquals(2, code.knownLineCount());
-        code.processLinesToOffset(13);
-        assertEquals(3, code.knownLineCount());
+        text.processLinesToOffset(12);
+        assertEquals(2, text.knownLineCount());
+        text.processLinesToOffset(13);
+        assertEquals(3, text.knownLineCount());
         
-        code.processLinesToOffset(18);
-        assertEquals(3, code.knownLineCount());
-        code.processLinesToOffset(19);
-        assertEquals(4, code.knownLineCount());
+        text.processLinesToOffset(18);
+        assertEquals(3, text.knownLineCount());
+        text.processLinesToOffset(19);
+        assertEquals(4, text.knownLineCount());
         
-        code.processLinesToOffset(24);
-        assertEquals(4, code.knownLineCount());
-        code.processLinesToOffset(25);
-        assertEquals(4, code.knownLineCount());
+        text.processLinesToOffset(24);
+        assertEquals(4, text.knownLineCount());
+        text.processLinesToOffset(25);
+        assertEquals(4, text.knownLineCount());
     }
     
     //== Windows == 
@@ -328,10 +328,10 @@ class TextTest {
     @Test
     void testBasic_windows() {
         var content = "first\r\nsecond\r\nthird\r\nforth\r\n";
-        var code    = new Text(content);
-        assertEquals(5,                 code.lineCount());
-        assertEquals(4,                 code.knownLineCount());
-        assertEquals("[6, 14, 21, 28]", code.newlineOffsets().toString());
+        var text    = new Text(content);
+        assertEquals(5,                 text.lineCount());
+        assertEquals(4,                 text.knownLineCount());
+        assertEquals("[6, 14, 21, 28]", text.newlineOffsets().toString());
         assertEquals(
                 "["
                 + "first, "
@@ -339,7 +339,7 @@ class TextTest {
                 + "third, "
                 + "forth, "
                 + "]",
-                code.lines().toString());
+                text.lines().toString());
     }
     
     @Test
@@ -347,44 +347,44 @@ class TextTest {
         //             0000000001111111111222222222333333333
         //             01234 5 6789012 3 456789 0 123456 7 8
         var content = "first\r\nsecond\r\nthird\r\nforth\r\n";
-        var code    = new Text(content);
+        var text    = new Text(content);
         
-        assertEquals(0, code.knownLineCount());
+        assertEquals(0, text.knownLineCount());
         
-        code.processLinesToOffset(3);
-        assertEquals(1, code.knownLineCount());
-        
-        // The line is recognized one character earlier because once it see '\r' it check next for the '\n'
-        code.processLinesToOffset(5);
-        assertEquals(1, code.knownLineCount());
-        code.processLinesToOffset(6);
-        assertEquals(1, code.knownLineCount());
-        code.processLinesToOffset(7);
-        assertEquals(2, code.knownLineCount());
+        text.processLinesToOffset(3);
+        assertEquals(1, text.knownLineCount());
         
         // The line is recognized one character earlier because once it see '\r' it check next for the '\n'
-        code.processLinesToOffset(13);
-        assertEquals(2, code.knownLineCount());
-        code.processLinesToOffset(14);
-        assertEquals(2, code.knownLineCount());
-        code.processLinesToOffset(15);
-        assertEquals(3, code.knownLineCount());
+        text.processLinesToOffset(5);
+        assertEquals(1, text.knownLineCount());
+        text.processLinesToOffset(6);
+        assertEquals(1, text.knownLineCount());
+        text.processLinesToOffset(7);
+        assertEquals(2, text.knownLineCount());
         
         // The line is recognized one character earlier because once it see '\r' it check next for the '\n'
-        code.processLinesToOffset(20);
-        assertEquals(3, code.knownLineCount());
-        code.processLinesToOffset(21);
-        assertEquals(3, code.knownLineCount());
-        code.processLinesToOffset(22);
-        assertEquals(4, code.knownLineCount());
+        text.processLinesToOffset(13);
+        assertEquals(2, text.knownLineCount());
+        text.processLinesToOffset(14);
+        assertEquals(2, text.knownLineCount());
+        text.processLinesToOffset(15);
+        assertEquals(3, text.knownLineCount());
         
         // The line is recognized one character earlier because once it see '\r' it check next for the '\n'
-        code.processLinesToOffset(27);
-        assertEquals(4, code.knownLineCount());
-        code.processLinesToOffset(28);
-        assertEquals(4, code.knownLineCount());
-        code.processLinesToOffset(29);
-        assertEquals(4, code.knownLineCount());
+        text.processLinesToOffset(20);
+        assertEquals(3, text.knownLineCount());
+        text.processLinesToOffset(21);
+        assertEquals(3, text.knownLineCount());
+        text.processLinesToOffset(22);
+        assertEquals(4, text.knownLineCount());
+        
+        // The line is recognized one character earlier because once it see '\r' it check next for the '\n'
+        text.processLinesToOffset(27);
+        assertEquals(4, text.knownLineCount());
+        text.processLinesToOffset(28);
+        assertEquals(4, text.knownLineCount());
+        text.processLinesToOffset(29);
+        assertEquals(4, text.knownLineCount());
     }
     
     //== Mix == 
@@ -392,10 +392,10 @@ class TextTest {
     @Test
     void testBasic_mix() {
         var content = "first\nsecond\rthird\r\nforth\r\n";
-        var code    = new Text(content);
-        assertEquals(5,                 code.lineCount());
-        assertEquals(4,                 code.knownLineCount());
-        assertEquals("[5, 12, 19, 26]", code.newlineOffsets().toString());
+        var text    = new Text(content);
+        assertEquals(5,                 text.lineCount());
+        assertEquals(4,                 text.knownLineCount());
+        assertEquals("[5, 12, 19, 26]", text.newlineOffsets().toString());
         assertEquals(
                 "["
                 + "first, "
@@ -403,128 +403,128 @@ class TextTest {
                 + "third, "
                 + "forth, "
                 + "]",
-                code.lines().toString());
+                text.lines().toString());
     }
     
     @Test
     void testBasic_mix_ensureOffset() {
         var content = "first\nsecond\rthird\r\nforth\r\n";
-        var code    = new Text(content);
+        var text    = new Text(content);
         
-        assertEquals(0, code.knownLineCount());
+        assertEquals(0, text.knownLineCount());
         
-        code.processLinesToOffset(3);
-        assertEquals(1, code.knownLineCount());
+        text.processLinesToOffset(3);
+        assertEquals(1, text.knownLineCount());
         
-        code.processLinesToOffset(5);
-        assertEquals(1, code.knownLineCount());
-        code.processLinesToOffset(6);
-        assertEquals(2, code.knownLineCount());
+        text.processLinesToOffset(5);
+        assertEquals(1, text.knownLineCount());
+        text.processLinesToOffset(6);
+        assertEquals(2, text.knownLineCount());
         
-        code.processLinesToOffset(12);
-        assertEquals(2, code.knownLineCount());
-        code.processLinesToOffset(13);
-        assertEquals(3, code.knownLineCount());
+        text.processLinesToOffset(12);
+        assertEquals(2, text.knownLineCount());
+        text.processLinesToOffset(13);
+        assertEquals(3, text.knownLineCount());
         
-        code.processLinesToOffset(18);
-        assertEquals(3, code.knownLineCount());
-        code.processLinesToOffset(19);
-        assertEquals(3, code.knownLineCount());
-        code.processLinesToOffset(20);
-        assertEquals(4, code.knownLineCount());
+        text.processLinesToOffset(18);
+        assertEquals(3, text.knownLineCount());
+        text.processLinesToOffset(19);
+        assertEquals(3, text.knownLineCount());
+        text.processLinesToOffset(20);
+        assertEquals(4, text.knownLineCount());
         
-        code.processLinesToOffset(25);
-        assertEquals(4, code.knownLineCount());
-        code.processLinesToOffset(26);
-        assertEquals(4, code.knownLineCount());
-        code.processLinesToOffset(27);
-        assertEquals(4, code.knownLineCount());
+        text.processLinesToOffset(25);
+        assertEquals(4, text.knownLineCount());
+        text.processLinesToOffset(26);
+        assertEquals(4, text.knownLineCount());
+        text.processLinesToOffset(27);
+        assertEquals(4, text.knownLineCount());
     }
     
     @Test
     void test_mix_offsets_noTail() {
         var content = "first\nsecond\rthird\r\nforth";
-        var code    = new Text(content);
-        assertEquals("[5, 12, 19]", code.newlineOffsets().toString());
+        var text    = new Text(content);
+        assertEquals("[5, 12, 19]", text.newlineOffsets().toString());
         
         assertEquals(
                 "java.lang.IndexOutOfBoundsException: "
                     + "Line number must be greater than or equal to 0: "
                         + "lineNumber=-1",
-                "" + assertThrows(IndexOutOfBoundsException.class, () -> code.startOffset(-1)));
+                "" + assertThrows(IndexOutOfBoundsException.class, () -> text.startOffset(-1)));
         assertEquals(
                 "java.lang.IndexOutOfBoundsException: "
                     + "Line number must be greater than or equal to 0: "
                         + "lineNumber=-1",
-                "" + assertThrows(IndexOutOfBoundsException.class, () -> code.endOffset(-1)));
+                "" + assertThrows(IndexOutOfBoundsException.class, () -> text.endOffset(-1)));
         
-        assertEquals(0, code.startOffset(0));
-        assertEquals(5, code.endOffset(0));
+        assertEquals(0, text.startOffset(0));
+        assertEquals(5, text.endOffset(0));
         
-        assertEquals(6,  code.startOffset(1));
-        assertEquals(12, code.endOffset(1));
+        assertEquals(6,  text.startOffset(1));
+        assertEquals(12, text.endOffset(1));
         
-        assertEquals(13, code.startOffset(2));
-        assertEquals(18, code.endOffset(2));
+        assertEquals(13, text.startOffset(2));
+        assertEquals(18, text.endOffset(2));
         
-        assertEquals(20, code.startOffset(3));
-        assertEquals(25, code.endOffset(3));
+        assertEquals(20, text.startOffset(3));
+        assertEquals(25, text.endOffset(3));
         
         assertEquals(
                 "java.lang.IndexOutOfBoundsException: "
                     + "Line number must be less than the line count: "
                         + "lineNumber=4, "
                         + "lineCount=4",
-                "" + assertThrows(IndexOutOfBoundsException.class, () -> code.startOffset(4)));
+                "" + assertThrows(IndexOutOfBoundsException.class, () -> text.startOffset(4)));
         assertEquals(
                 "java.lang.IndexOutOfBoundsException: "
                     + "Line number must be less than the line count: "
                         + "lineNumber=4, "
                         + "lineCount=4",
-                "" + assertThrows(IndexOutOfBoundsException.class, () -> code.endOffset(4)));
+                "" + assertThrows(IndexOutOfBoundsException.class, () -> text.endOffset(4)));
     }
     
     @Test
     void test_mix_offsets_withTail() {
         var content = "first line\nsecond line\rthird line\r\n";
-        var code    = new Text(content);
-        assertEquals("[10, 22, 34]", code.newlineOffsets().toString());
+        var text    = new Text(content);
+        assertEquals("[10, 22, 34]", text.newlineOffsets().toString());
         
         assertEquals(
                 "java.lang.IndexOutOfBoundsException: "
                     + "Line number must be greater than or equal to 0: "
                         + "lineNumber=-1",
-                "" + assertThrows(IndexOutOfBoundsException.class, () -> code.startOffset(-1)));
+                "" + assertThrows(IndexOutOfBoundsException.class, () -> text.startOffset(-1)));
         assertEquals(
                 "java.lang.IndexOutOfBoundsException: "
                     + "Line number must be greater than or equal to 0: "
                         + "lineNumber=-1",
-                "" + assertThrows(IndexOutOfBoundsException.class, () -> code.endOffset(-1)));
+                "" + assertThrows(IndexOutOfBoundsException.class, () -> text.endOffset(-1)));
         
-        assertEquals(0,  code.startOffset(0));
-        assertEquals(10, code.endOffset(0));
+        assertEquals(0,  text.startOffset(0));
+        assertEquals(10, text.endOffset(0));
         
-        assertEquals(11, code.startOffset(1));
-        assertEquals(22, code.endOffset(1));
+        assertEquals(11, text.startOffset(1));
+        assertEquals(22, text.endOffset(1));
         
-        assertEquals(23, code.startOffset(2));
-        assertEquals(33, code.endOffset(2));
+        assertEquals(23, text.startOffset(2));
+        assertEquals(33, text.endOffset(2));
         
-        assertEquals(35, code.startOffset(3));
-        assertEquals(35, code.endOffset(3));
+        assertEquals(35, text.startOffset(3));
+        assertEquals(35, text.endOffset(3));
         
         assertEquals(
                 "java.lang.IndexOutOfBoundsException: "
                     + "Line number must be less than the line count: "
                         + "lineNumber=4, "
                         + "lineCount=4",
-                "" + assertThrows(IndexOutOfBoundsException.class, () -> code.startOffset(4)));
+                "" + assertThrows(IndexOutOfBoundsException.class, () -> text.startOffset(4)));
         assertEquals(
                 "java.lang.IndexOutOfBoundsException: "
                     + "Line number must be less than the line count: "
                         + "lineNumber=4, "
                         + "lineCount=4",
-                "" + assertThrows(IndexOutOfBoundsException.class, () -> code.endOffset(4)
+                "" + assertThrows(IndexOutOfBoundsException.class, () -> text.endOffset(4)
                 ));
     }
     
@@ -534,10 +534,10 @@ class TextTest {
     void testLong() {
         int count   = 5;
         var newline = "\n";
-        var codeShort = new Text(infinite().limit(count).mapToString().reduce((s1, s2) -> s1 + newline + s2).get());
-        assertEquals("0\n1\n2\n3\n4",   codeShort.content());
-        assertEquals("[0, 1, 2, 3, 4]", codeShort.lines() + "");
-        assertEquals(5,                 codeShort.lineCount());
+        var textShort = new Text(infinite().limit(count).mapToString().reduce((s1, s2) -> s1 + newline + s2).get());
+        assertEquals("0\n1\n2\n3\n4",   textShort.content());
+        assertEquals("[0, 1, 2, 3, 4]", textShort.lines() + "");
+        assertEquals(5,                 textShort.lineCount());
         
         var newLines = listOf("\n", "\r", "\r\n");
         for (var newLine : newLines) {
@@ -555,10 +555,10 @@ class TextTest {
                 .mapToString()
                 .reduce((s1, s2) -> s1 + newline.get() + s2)
                 .get();
-        var codeLong = new Text(content);
-        assertEquals(1000, codeLong.lineCount());
+        var textLong = new Text(content);
+        assertEquals(1000, textLong.lineCount());
         
-        var ints = codeLong.lines().mapToInt(Integer::parseInt);
+        var ints = textLong.lines().mapToInt(Integer::parseInt);
         assertEquals(0,   ints.first().getAsInt());
         assertEquals(999, ints.last().getAsInt());
     }
@@ -568,13 +568,13 @@ class TextTest {
     @Test
     void testLineOf() {
         var content = "first\nsecond\nthird\nforth";
-        var code    = new Text(content);
+        var text    = new Text(content);
         var logs    = new StringBuilder();
         for (int offset = 0; offset < content.length(); offset++) {
             var charAt     = content.charAt(offset);
             var eachChar   = (charAt == '\n') ? "\\n" : (charAt == '\r') ? "\\r" : charAt;
-            int lineNumber = code.lineNumberAtOffset(offset);
-            var lineAt     = code.lineAtOffset(offset);
+            int lineNumber = text.lineNumberAtOffset(offset);
+            var lineAt     = text.lineAtOffset(offset);
             logs.append(offset)
                 .append(": ")
                 .append(eachChar)
@@ -616,13 +616,13 @@ class TextTest {
     @Test
     void testLineOf_windows() {
         var content = "first\r\nsecond\r\nthird\r\nforth";
-        var code    = new Text(content);
+        var text    = new Text(content);
         var logs    = new StringBuilder();
         for (int offset = 0; offset < content.length(); offset++) {
             var charAt     = content.charAt(offset);
             var eachChar   = (charAt == '\n') ? "\\n" : (charAt == '\r') ? "\\r" : charAt;
-            int lineNumber = code.lineNumberAtOffset(offset);
-            var lineAt     = code.lineAtOffset(offset);
+            int lineNumber = text.lineNumberAtOffset(offset);
+            var lineAt     = text.lineAtOffset(offset);
             logs.append(offset)
                 .append(": ")
                 .append(eachChar)
@@ -669,12 +669,12 @@ class TextTest {
     @Test
     void testLocationOf_singleLine() {
         var content = "first\r\n\tsecond\r\n  third\r\nforth";
-        var code    = new Text(content);
-        var segment = new SegmentPlainTextFormatter(code);
+        var text    = new Text(content);
+        var segment = new SegmentPlainTextFormatter(text);
         var logs    = new StringBuilder();
-        assertEquals("[6, 15, 24]", code.newlineOffsets().toString());
+        assertEquals("[6, 15, 24]", text.newlineOffsets().toString());
         
-        for (int offset = 0; offset < code.length(); offset++) {
+        for (int offset = 0; offset < text.length(); offset++) {
             var location = segment.byOffset(offset);
             logs
                 .append("Offset: ")
@@ -920,12 +920,12 @@ class TextTest {
     @Test
     void testLocationOf_multipleLine() {
         var content = "first\r\n\tsecond\r\n  third\r\nforth";
-        var code    = new Text(content);
-        var segment = new SegmentPlainTextFormatter(code);
+        var text    = new Text(content);
+        var segment = new SegmentPlainTextFormatter(text);
         var logs    = new StringBuilder();
-        assertEquals("[6, 15, 24]", code.newlineOffsets().toString());
+        assertEquals("[6, 15, 24]", text.newlineOffsets().toString());
         
-        for (int offset = 0; offset < code.length(); offset++) {
+        for (int offset = 0; offset < text.length(); offset++) {
             var location = segment.byOffsets(offset, offset + 11);
             logs
                 .append("Offset: ")
@@ -1192,7 +1192,7 @@ class TextTest {
     @Test
     void testLine() {
         var content = "first\nsecond\rthird\r\nforth\r\n";
-        var code    = new Text(content);
+        var text    = new Text(content);
         assertEquals(
                 "["
                 + "first, "
@@ -1200,13 +1200,13 @@ class TextTest {
                 + "third, "
                 + "forth, "
                 + "]",
-                IntFuncList.range(0, code.lineCount()).mapToObj(code::line).toString());
+                IntFuncList.range(0, text.lineCount()).mapToObj(text::line).toString());
     }
     
     @Test
     void testLineLn() {
         var content = "first\nsecond\rthird\r\nforth\r\n";
-        var code    = new Text(content);
+        var text    = new Text(content);
         assertEquals(
                 "["
                 + "first\\n, "
@@ -1214,8 +1214,8 @@ class TextTest {
                 + "third\\r\\n, "
                 + "forth\\r\\n, "
                 + "]",
-                range(0, code.lineCount())
-                .mapToObj(code::lineLn)
+                range(0, text.lineCount())
+                .mapToObj(text::lineLn)
                 .map(theString
                         .replaceAll("\r", "\\\\r")
                         .replaceAll("\n", "\\\\n"))
@@ -1227,7 +1227,7 @@ class TextTest {
                 + "third\\r\\n, "
                 + "forth\\r\\n, "
                 + "]",
-                code.lineLns()
+                text.lineLns()
                 .map(theString
                         .replaceAll("\r", "\\\\r")
                         .replaceAll("\n", "\\\\n"))

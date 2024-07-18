@@ -9,33 +9,32 @@ import functionalj.list.FuncList;
 import net.nawaman.textj.Text;
 
 /**
- * A code segment formatter.
+ * A text segment formatter.
  */
 public abstract class SegmentFormatter {
     
-    protected final Text   code;
+    protected final Text   text;
     protected final String content;
     protected final int    tabSize;
     
-    /** Constructs a new CodeSegmentFormatter */
-    public SegmentFormatter(Text code) {
-        this.code    = code;
-        this.content = code.content();
-        
-        this.tabSize = code.tabSize();
+    /** Constructs a new SegmentFormatter */
+    public SegmentFormatter(Text text) {
+        this.text    = text;
+        this.content = text.content();
+        this.tabSize = text.tabSize();
     }
     
-    /** @return  the code this segment */
-    public final Text code() {
-        return code;
+    /** @return  the text this segment */
+    public final Text text() {
+        return text;
     }
     
-    /** @return the content of the code. */
+    /** @return the content of the text. */
     public final String content() {
         return content;
     }
     
-    /** @return the tab size of the code. */
+    /** @return the tab size of the text. */
     public final int tabSize() {
         return tabSize;
     }
@@ -69,13 +68,13 @@ public abstract class SegmentFormatter {
             endOffset = temp;
         }
         
-        var code = code();
-        var lastLine  = max(0, code.lineNumberAtOffset(endOffset) + 1);
-        code.processLinesToOffset(lastLine);
-        code.processToLineCount(code.knownLineCount() + 1);
+        var text = text();
+        var lastLine  = max(0, text.lineNumberAtOffset(endOffset) + 1);
+        text.processLinesToOffset(lastLine);
+        text.processToLineCount(text.knownLineCount() + 1);
         
-        var firstLine = max(0, code.lineNumberAtOffset(startOffset) - 1);
-        lastLine      = min(lastLine, code.knownLineCount());
+        var firstLine = max(0, text.lineNumberAtOffset(startOffset) - 1);
+        lastLine      = min(lastLine, text.knownLineCount());
         
         return byLines(firstLine, lastLine, highlights);
     }

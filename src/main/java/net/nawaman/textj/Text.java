@@ -9,18 +9,18 @@ import functionalj.list.intlist.IntFuncList;
 import net.nawaman.textj.internal.SortedAbsoluteIntArray;
 
 /**
- * This class represents a specification for code.
+ * This class represents a specification for text.
  * 
- * This class processes the code in the line, column as well as the offset.
+ * This class processes the text in the line, column as well as the offset.
  * The processing of the line is done lazily.
- * The intention is that most of the code should not need to be processed.
+ * The intention is that most of the text should not need to be processed.
  * 
  * Note: All index and offset are 0-based.
  * 
  * Note: To account for the two character new line (i.e. '\r\n'), the new line offset is stored as negative.
  * 
  * Note: Although once processed, the processing might not be the most optimize,
- *         the code only be processed when needed.
+ *         the text only be processed when needed.
  *       And the space used is optimized. (as much as I could)
  */
 public class Text {
@@ -36,21 +36,21 @@ public class Text {
     private int previousProcessedOffset = 0;
     
     /**
-     * Constructs a new instance of Code with the given content with default tabSize.
+     * Constructs a new instance of text with the given content with default tabSize.
      *
-     * @param content  The content of the code with new lines.
+     * @param content  The content of the text with new lines.
      */
     public Text(String content) {
         this(content, DEFAULT_TAB_SIZE);
     }
     
     /**
-     * Constructs a new instance of Code with the given content and tab size.
+     * Constructs a new instance of text with the given content and tab size.
      * 
      * If the tab size is less than 0, it will be set to the default tab size.
      * If the tab size is 0, it will be set to 1.
      * 
-     * @param content  the content of the code with new lines.
+     * @param content  the content of the text with new lines.
      * @param tabSize  the tab size.
      */
     public Text(String content, int tabSize) {
@@ -58,7 +58,7 @@ public class Text {
         this.tabSize = (tabSize < 0) ? DEFAULT_TAB_SIZE : max(1, tabSize);
     }
     
-    /** @return  the content of the code. */
+    /** @return  the content of the text. */
     public final String content() {
         return content;
     }
@@ -92,20 +92,20 @@ public class Text {
     //== Step ==
     
     /**
-     * Ensures that the code is processed up to the given offset.
+     * Ensures that the text is processed up to the given offset.
      * If the offset is beyond the length of the content, it will process up to the end of the content.
      *
-     * @param offset  the offset up to which the code should be processed.
+     * @param offset  the offset up to which the text should be processed.
      */
     public final void processLinesToOffset(int offset) {
         processLinesUpTo(offset, Integer.MAX_VALUE);
     }
     
     /**
-     * Ensures that the code is processed up to the given line count.
+     * Ensures that the text is processed up to the given line count.
      * If the line count is beyond the number of lines in the content, it will process all lines.
      *
-     * @param lineCount  the number of lines up to which the code should be processed.
+     * @param lineCount  the number of lines up to which the text should be processed.
      */
     public final void processToLineCount(int lineCount) {
         processLinesUpTo(Integer.MAX_VALUE, lineCount);
@@ -145,7 +145,7 @@ public class Text {
         return currentNewlineCount;
     }
     
-    /** @return  the offset up to which the code is processed. */
+    /** @return  the offset up to which the text is processed. */
     final int processedOffset() {
         return processedOffset;
     }

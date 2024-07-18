@@ -9,8 +9,8 @@ import net.nawaman.textj.Text;
 
 class SegmentVT100FormatterTest {
     
-    Text             code      = new Text("0123\n012345678\n01234567890123\n0123456789012345678\r01234567890123456789012\r\n012345678901234567890123456789");
-    SegmentFormatter formatter = new SegmentVT100Formatter(code);
+    Text             text      = new Text("0123\n012345678\n01234567890123\n0123456789012345678\r01234567890123456789012\r\n012345678901234567890123456789");
+    SegmentFormatter formatter = new SegmentVT100Formatter(text);
     
     boolean printActual = false;
     
@@ -133,8 +133,8 @@ class SegmentVT100FormatterTest {
         }
         """.replaceFirst("\n", "\r\n");
     
-    Text             javaCode      = new Text(javaContent);
-    SegmentFormatter javaFormatter = new SegmentVT100Formatter(javaCode);
+    Text             javaText      = new Text(javaContent);
+    SegmentFormatter javaFormatter = new SegmentVT100Formatter(javaText);
     
     @Test
     void testHighLights() {

@@ -8,8 +8,8 @@ import net.nawaman.textj.Text;
 
 class SegmentPlainTextFormatterTest {
     
-    Text                 code      = new Text("first line\nsecond line\nthird line\nfourth line\nfifth line\nsixth line");
-    SegmentFormatter formatter = new SegmentPlainTextFormatter(code);
+    Text             text      = new Text("first line\nsecond line\nthird line\nfourth line\nfifth line\nsixth line");
+    SegmentFormatter formatter = new SegmentPlainTextFormatter(text);
     
     @Test
     void testFirst() {
@@ -63,7 +63,7 @@ class SegmentPlainTextFormatterTest {
     
     @Test
     void testOneRuler() {
-        formatter = new SegmentPlainTextFormatter(code, true);
+        formatter = new SegmentPlainTextFormatter(text, true);
         var expected = """
                 ----|----+---10----+---20----+---30----+---40----+---50----+---60----+---70----+---80
                   1 |first line

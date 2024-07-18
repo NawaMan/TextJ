@@ -14,13 +14,13 @@ import functionalj.function.Func2;
 import net.nawaman.textj.Text;
 
 /**
- * A code segment formatter.which displays with VT100 code.
+ * A segment formatter.which displays with VT100 text.
  */
 public class SegmentPlainTextFormatter extends SegmentFormatter {
     
     /** The segment creator. */
     public static final Func2<Text, Boolean, SegmentFormatter> segmentCreator 
-                = (code, isOneLineRuler) -> new SegmentPlainTextFormatter(code, isOneLineRuler != Boolean.FALSE);
+                = (text, isOneLineRuler) -> new SegmentPlainTextFormatter(text, isOneLineRuler != Boolean.FALSE);
     
     /** The segment creator. */
     public static final Func2<Text, Boolean, SegmentFormatter> plainTextSegmentCreator = segmentCreator;
@@ -28,20 +28,20 @@ public class SegmentPlainTextFormatter extends SegmentFormatter {
     private final RulerGenerator topRuler;
     private final RulerGenerator bottomRuler;
     
-    public SegmentPlainTextFormatter(Text code) {
-        this(code, false);
+    public SegmentPlainTextFormatter(Text text) {
+        this(text, false);
     }
     
-    public SegmentPlainTextFormatter(Text code, boolean isOneLineRuler) {
-        super(code);
+    public SegmentPlainTextFormatter(Text text, boolean isOneLineRuler) {
+        super(text);
         topRuler    = isOneLineRuler ? oneLineRuler : topTwoLineRuler;
         bottomRuler = isOneLineRuler ? oneLineRuler : bottomTwoLineRuler;
     }
     
     @Override
     public CharSequence byLines(int firstLine, int lastLine, List<HighLight> highlights) {
-        code.processToLineCount(lastLine);
-        lastLine = min(lastLine, code.knownLineCount());
+        text.processToLineCount(lastLine);
+        lastLine = min(lastLine, text.knownLineCount());
         
         int maxColumn = maxColumn(firstLine, lastLine);
         
@@ -53,9 +53,9 @@ public class SegmentPlainTextFormatter extends SegmentFormatter {
         output.append("\n");
         for (int i = firstLine; i <= lastLine; i++) {
             var lineNumber = " %2d |".formatted(i + 1); // 1-based index
-            var codeLine   = code.line(i).replaceAll("\t", "                         ".substring(0, tabSize));
+            var textLine   = text.line(i).replaceAll("\t", "                         ".substring(0, tabSize));
             
-            output.append(lineNumber).append(codeLine).append("\n");
+            output.append(lineNumber).append(textLine).append("\n");
         }
         
         if ((lastLine - firstLine) >= 5) {
@@ -68,7 +68,7 @@ public class SegmentPlainTextFormatter extends SegmentFormatter {
     private int maxColumn(int firstLine, int lastLine) {
         int maxColumn
                 = rangeClosed(firstLine, lastLine)
-                .map(lineNumber -> code.endOffset(lineNumber) - code.startOffset(lineNumber))
+                .map(lineNumber -> text.endOffset(lineNumber) - text.startOffset(lineNumber))
                 .max()
                 .orElse(80);
         maxColumn = (int) (ceil(max(maxColumn, 80) / 10.0) * 10);

@@ -11,14 +11,14 @@ import net.nawaman.textj.Text;
 
 public class SegmentFormatterTest {
     
-    private Text code = new Text("first line\n second line\n third line\nforth line", 4);
+    private Text         text         = new Text("first line\n second line\n third line\nforth line", 4);
     private StringBuffer byLinesCalls = new StringBuffer();
     
     private SegmentFormatter formatter;
     
     @BeforeEach
     public void setUp() {
-        formatter = new SegmentFormatter(code) {
+        formatter = new SegmentFormatter(text) {
             @Override
             public CharSequence byLines(int firstLine, int lastLine, List<HighLight> highlights) {
                 byLinesCalls.append("Call: firstLine: %d, lastLine: %d".formatted(firstLine, lastLine));
@@ -33,8 +33,8 @@ public class SegmentFormatterTest {
     }
     
     @Test
-    public void testCode() {
-        assertEquals(code, formatter.code());
+    public void testText() {
+        assertEquals(text, formatter.text());
     }
     
     @Test

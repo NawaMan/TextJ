@@ -1,7 +1,7 @@
 package net.nawaman.textj.formatter;
 
 /**
- * CodeHighLight represent a highlight in the code.
+ * HighLight represent a highlight in the text.
  */
 public record HighLight(int startOffset, int endOffset, int color) {
     

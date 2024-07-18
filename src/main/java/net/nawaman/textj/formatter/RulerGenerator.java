@@ -1,12 +1,12 @@
 package net.nawaman.textj.formatter;
 
 /**
- * Generator for code ruler.
+ * Generator for ruler.
  */
 public interface RulerGenerator {
     
     /**
-     * Add a code ruler to the string builder.
+     * Add a ruler to the string builder.
      * 
      * @param buffer      the string builder to add the ruler to.
      * @param linePrefix  the prefix to add to the ruler.
