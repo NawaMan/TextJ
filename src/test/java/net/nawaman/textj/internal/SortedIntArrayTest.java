@@ -3,6 +3,8 @@ package net.nawaman.textj.internal;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.util.function.IntUnaryOperator;
+
 import org.junit.jupiter.api.Test;
 
 import functionalj.ref.Run;
@@ -211,6 +213,24 @@ class SortedIntArrayTest {
                 assertThrows(
                     IndexOutOfBoundsException.class,
                     () -> array.get(30)).getMessage());
+    }
+    
+    @Test
+    void testLength() {
+        var array = new SortedAbsoluteIntArray(4, 4);
+        assertEquals(0, array.length());
+        
+        array.add(10);
+        assertEquals(1, array.length());
+    }
+    
+    @Test
+    void testIsEmpty() {
+        var array = new SortedAbsoluteIntArray(4, 4);
+        assertEquals(true, array.isEmpty());
+        
+        array.add(10);
+        assertEquals(false, array.isEmpty());
     }
     
 }

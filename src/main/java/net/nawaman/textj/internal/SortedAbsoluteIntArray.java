@@ -108,7 +108,7 @@ public class SortedAbsoluteIntArray {
      * @param value  the value to add.
      */
     public final void add(int value) {
-        if (abs(value) <= abs(latestValue)) {
+       if ((abs(value) <= abs(latestValue)) && (value != 0) && (latestValue != 0)) {
             var message = "The value " + value + " is not larger than the last value " + latestValue + ".";
             throw new IllegalArgumentException(message);
         }
@@ -196,6 +196,21 @@ public class SortedAbsoluteIntArray {
         var subStopIndex = (IntUnaryOperator)(i -> (i == (valueSize - 1)) ? nextIndexInArray : arrayLength);
         int index        = findIndex(indexAt, valueSize, arrayLength, subStopIndex, absNeedle);
         return index;
+    }
+    
+    /**
+     * Returns if the array is empty.
+     * 
+     * @return  <code>true</code> if the array is empty, otherwise <code>false</code>.
+     */
+    public final boolean isEmpty() {
+        int valueSize = values.size();
+        return (valueSize == 0);
+    }
+    
+    @Override
+    public String toString() {
+        return values().toString();
     }
     
 }
