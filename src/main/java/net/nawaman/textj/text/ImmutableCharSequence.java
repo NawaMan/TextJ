@@ -1,4 +1,4 @@
-package net.nawaman.textj;
+package net.nawaman.textj.text;
 
 import java.util.Map;
 import java.util.function.Consumer;

@@ -3,8 +3,6 @@ package net.nawaman.textj.internal;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.util.function.IntUnaryOperator;
-
 import org.junit.jupiter.api.Test;
 
 import functionalj.ref.Run;

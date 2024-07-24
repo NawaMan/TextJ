@@ -1,4 +1,4 @@
-package net.nawaman.textj;
+package net.nawaman.textj.code;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -6,6 +6,9 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.Test;
 
 import functionalj.list.FuncList;
+import net.nawaman.textj.text.ImmutableCharSequence;
+import net.nawaman.textj.text.Sequence;
+import net.nawaman.textj.text.Str;
 
 class SequenceTest {
     

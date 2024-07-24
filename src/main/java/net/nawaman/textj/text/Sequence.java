@@ -1,4 +1,4 @@
-package net.nawaman.textj;
+package net.nawaman.textj.text;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;

@@ -1,4 +1,4 @@
-package net.nawaman.textj;
+package net.nawaman.textj.text;
 
 import functionalj.lens.core.LensSpec;
 import functionalj.lens.lenses.IntegerLens;

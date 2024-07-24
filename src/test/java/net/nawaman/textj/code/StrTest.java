@@ -1,6 +1,10 @@
-package net.nawaman.textj;
+package net.nawaman.textj.code;
 
 import org.junit.jupiter.api.Test;
+
+import net.nawaman.textj.text.ImmutableCharSequence;
+import net.nawaman.textj.text.Str;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class StrTest {

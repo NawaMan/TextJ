@@ -1,12 +1,12 @@
-package net.nawaman.textj.formatter;
+package net.nawaman.textj.code.formatter;
 
 import static java.lang.Math.ceil;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 import static java.util.stream.IntStream.rangeClosed;
-import static net.nawaman.textj.formatter.RulerOneLine.oneLineRuler;
-import static net.nawaman.textj.formatter.RulerTwoLine.bottomTwoLineRuler;
-import static net.nawaman.textj.formatter.RulerTwoLine.topTwoLineRuler;
+import static net.nawaman.textj.code.formatter.RulerOneLine.oneLineRuler;
+import static net.nawaman.textj.code.formatter.RulerTwoLine.bottomTwoLineRuler;
+import static net.nawaman.textj.code.formatter.RulerTwoLine.topTwoLineRuler;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -14,17 +14,19 @@ import java.util.List;
 
 import functionalj.function.Func2;
 import functionalj.list.FuncList;
-import net.nawaman.textj.Text;
+import net.nawaman.textj.code.Code;
 
 /**
- * A segment formatter.which displays with VT100 text.
+ * A segment formatter.which displays with VT100.
  */
 public class SegmentVT100Formatter extends SegmentFormatter {
     
-    public static final Func2<Text, Boolean, SegmentFormatter> segmentCreator 
-                = (text, isOneLineRuler) -> new SegmentVT100Formatter(text, isOneLineRuler != Boolean.FALSE);
+    private static final String LINES = "—————————————————————————————————————————————————————————————————————————————";
+    
+    public static final Func2<Code, Boolean, SegmentFormatter> segmentCreator 
+                = (code, isOneLineRuler) -> new SegmentVT100Formatter(code, isOneLineRuler != Boolean.FALSE);
                 
-    public static final Func2<Text, Boolean, SegmentFormatter> vt100SegmentCreator = segmentCreator;
+    public static final Func2<Code, Boolean, SegmentFormatter> vt100SegmentCreator = segmentCreator;
     
     private static final String           VT100_HIGHLIGHT_END    = "\u001B[0m";
     private static final FuncList<String> VT100_HIGHLIGHT_STARTS = FuncList.of(
@@ -47,20 +49,20 @@ public class SegmentVT100Formatter extends SegmentFormatter {
     private final RulerGenerator topRuler;
     private final RulerGenerator bottomRuler;
     
-    public SegmentVT100Formatter(Text text) {
-        this(text, false);
+    public SegmentVT100Formatter(Code code) {
+        this(code, false);
     }
     
-    public SegmentVT100Formatter(Text text, boolean isOneLineRuler) {
-        super(text);
+    public SegmentVT100Formatter(Code code, boolean isOneLineRuler) {
+        super(code);
         topRuler    = isOneLineRuler ? oneLineRuler : topTwoLineRuler;
         bottomRuler = isOneLineRuler ? oneLineRuler : bottomTwoLineRuler;
     }
     
     @Override
     public CharSequence byLines(int firstLine, int lastLine, List<HighLight> highlights) {
-        text.processToLineCount(lastLine);
-        lastLine = min(lastLine, text.knownLineCount());
+        code.processToLineCount(lastLine);
+        lastLine = min(lastLine, code.knownLineCount());
         
         int maxColumn = maxColumn(firstLine, lastLine);
         
@@ -72,14 +74,14 @@ public class SegmentVT100Formatter extends SegmentFormatter {
         output.append("\n");
         for (int i = firstLine; i <= lastLine; i++) {
             var lineNumber = " %2d |".formatted(i + 1); // 1-based index
-            var textLine   = text.lineLn(i);
+            var codeLine   = code.lineLn(i);
             
-            int lineStartOffset = text.startOffset(i);
-            int lineEndOffset =   (i < text.knownLineCount() - 1) ? text.startOffset(i + 1) : text.endOffset(i);
+            int lineStartOffset = code.startOffset(i);
+            int lineEndOffset =   (i < code.knownLineCount() - 1) ? code.startOffset(i + 1) : code.endOffset(i);
             
-            textLine = highLightLine(highlights, textLine, lineStartOffset, lineEndOffset);
+            codeLine = highLightLine(highlights, codeLine, lineStartOffset, lineEndOffset);
             
-            output.append(lineNumber).append(textLine).append("\n");
+            output.append(lineNumber).append(codeLine).append("\n");
         }
         
         if ((lastLine - firstLine) >= 5) {
@@ -92,15 +94,15 @@ public class SegmentVT100Formatter extends SegmentFormatter {
     private int maxColumn(int firstLine, int lastLine) {
         int maxColumn
                 = rangeClosed(firstLine, lastLine)
-                .map(lineNumber -> text.endOffset(lineNumber) - text.startOffset(lineNumber))
+                .map(lineNumber -> code.endOffset(lineNumber) - code.startOffset(lineNumber))
                 .max()
                 .orElse(80);
         maxColumn = (int) (ceil(max(maxColumn, 80) / 10.0) * 10);
         return maxColumn;
     }
     
-    private String highLightLine(List<HighLight> textHighlights, String textLine, int lineStartOffset, int lineEndOffset) {
-        var highlights = new ArrayList<>(textHighlights);
+    private String highLightLine(List<HighLight> codeHighlights, String codeLine, int lineStartOffset, int lineEndOffset) {
+        var highlights = new ArrayList<>(codeHighlights);
         highlights.sort(Comparator.<HighLight>comparingInt(h -> h.startOffset()).thenComparingInt(h -> h.endOffset()));
         
         var segments = new ArrayList<HighLight>();
@@ -109,24 +111,24 @@ public class SegmentVT100Formatter extends SegmentFormatter {
         for (int h = 0; h < highlights.size(); h++) {
             var highlight = highlights.get(h);
             int startOffset = max(highlight.startOffset() - lineStartOffset, 0);
-            int endOffset   = min(highlight.endOffset()   - lineStartOffset, textLine.length());
+            int endOffset   = min(highlight.endOffset()   - lineStartOffset, codeLine.length());
             
-            if (startOffset >= textLine.length() || endOffset <= 0) continue;
+            if (startOffset >= codeLine.length() || endOffset <= 0) continue;
             
             if (currentPos < startOffset) {
                 segments.add(new HighLight(currentPos, startOffset, -1)); // -1 for no highlight
             }
             segments.add(new HighLight(startOffset, endOffset, h));
-            currentPos = Math.max(currentPos, endOffset);
+            currentPos = max(currentPos, endOffset);
         }
         
-        if (currentPos < textLine.length()) {
-            segments.add(new HighLight(currentPos, textLine.length(), -1));
+        if (currentPos < codeLine.length()) {
+            segments.add(new HighLight(currentPos, codeLine.length(), -1));
         }
         
         var result = new StringBuilder();
         for (var segment : segments) {
-            var part = textLine.substring(segment.startOffset(), segment.endOffset());
+            var part = codeLine.substring(segment.startOffset(), segment.endOffset());
             if (segment.color() == -1) {
                 result.append(highlightLineSegment(part));
             } else {
@@ -136,24 +138,24 @@ public class SegmentVT100Formatter extends SegmentFormatter {
         
         return result.toString();
     }
-        
-    private String highlightSegment(String textLine, int start, int end, int color) {
-        return highlightLineSegment(textLine.substring(0, start))
+    
+    private String highlightSegment(String codeLine, int start, int end, int color) {
+        return highlightLineSegment(codeLine.substring(0, start))
             + VT100_HIGHLIGHT_STARTS.get(color % VT100_HIGHLIGHT_STARTS.size()) 
-            + textLine
+            + codeLine
                 .substring(start, end)
                 .replaceAll(" ", "·")
-                .replaceAll("\t", "—————————————————".substring(0, tabSize - 1) + "→")
+                .replaceAll("\t", LINES.substring(0, tabSize - 1) + "→")
                 .replaceAll("\r", "↵")
                 .replaceAll("\n", "¶")
             + VT100_HIGHLIGHT_END 
-            + highlightLineSegment(textLine.substring(end));
+            + highlightLineSegment(codeLine.substring(end));
     }
     
-    private String highlightLineSegment(String textLine) {
-        return textLine
+    private String highlightLineSegment(String codeLine) {
+        return codeLine
                 .replaceAll(" ",  "\u001B[38;2;200;200;200m·\u001B[0m")
-                .replaceAll("\t", "\u001B[38;2;200;200;200m" + "—————————————————".substring(0, tabSize - 1) + "→\u001B[0m")
+                .replaceAll("\t", "\u001B[38;2;200;200;200m" + LINES.substring(0, tabSize - 1) + "→\u001B[0m")
                 .replaceAll("\r", "\u001B[38;2;200;200;200m↵\u001B[0m")
                 .replaceAll("\n", "\u001B[38;2;200;200;200m¶\u001B[0m");
     }

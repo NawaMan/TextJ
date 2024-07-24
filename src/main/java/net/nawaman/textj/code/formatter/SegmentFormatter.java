@@ -1,4 +1,4 @@
-package net.nawaman.textj.formatter;
+package net.nawaman.textj.code.formatter;
 
 import static java.lang.Math.max;
 import static java.lang.Math.min;
@@ -6,35 +6,35 @@ import static java.lang.Math.min;
 import java.util.List;
 
 import functionalj.list.FuncList;
-import net.nawaman.textj.Text;
+import net.nawaman.textj.code.Code;
 
 /**
- * A text segment formatter.
+ * A code segment formatter.
  */
 public abstract class SegmentFormatter {
     
-    protected final Text   text;
+    protected final Code   code;
     protected final String content;
     protected final int    tabSize;
     
-    /** Constructs a new SegmentFormatter */
-    public SegmentFormatter(Text text) {
-        this.text    = text;
-        this.content = text.content();
-        this.tabSize = text.tabSize();
+    /** Constructs a new {@link SegmentFormatter} */
+    public SegmentFormatter(Code code) {
+        this.code    = (code == null) ? new Code("") : code;
+        this.content = this.code.content();
+        this.tabSize = this.code.tabSize();
     }
     
-    /** @return  the text this segment */
-    public final Text text() {
-        return text;
+    /** @return  the code this segment */
+    public final Code code() {
+        return code;
     }
     
-    /** @return the content of the text. */
+    /** @return the content of the code. */
     public final String content() {
         return content;
     }
     
-    /** @return the tab size of the text. */
+    /** @return the tab size of the code. */
     public final int tabSize() {
         return tabSize;
     }
@@ -68,13 +68,13 @@ public abstract class SegmentFormatter {
             endOffset = temp;
         }
         
-        var text = text();
-        var lastLine  = max(0, text.lineNumberAtOffset(endOffset) + 1);
-        text.processLinesToOffset(lastLine);
-        text.processToLineCount(text.knownLineCount() + 1);
+        var code = code();
+        var lastLine  = max(0, code.lineNumberAtOffset(endOffset) + 1);
+        code.processLinesToOffset(lastLine);
+        code.processToLineCount(code.knownLineCount() + 1);
         
-        var firstLine = max(0, text.lineNumberAtOffset(startOffset) - 1);
-        lastLine      = min(lastLine, text.knownLineCount());
+        var firstLine = max(0, code.lineNumberAtOffset(startOffset) - 1);
+        lastLine      = min(lastLine, code.knownLineCount());
         
         return byLines(firstLine, lastLine, highlights);
     }

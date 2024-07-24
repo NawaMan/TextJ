@@ -1,4 +1,4 @@
-package net.nawaman.textj.formatter;
+package net.nawaman.textj.code.formatter;
 
 /**
  * Generator for ruler.

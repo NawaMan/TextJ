@@ -1,4 +1,4 @@
-package net.nawaman.textj.formatter;
+package net.nawaman.textj.code.formatter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;

@@ -1,12 +1,12 @@
-package net.nawaman.textj;
+package net.nawaman.textj.code;
 
-import static net.nawaman.textj.formatter.RulerTwoLine.bottomTwoLineRuler;
-import static net.nawaman.textj.formatter.RulerTwoLine.topTwoLineRuler;
+import static net.nawaman.textj.code.formatter.RulerTwoLine.bottomTwoLineRuler;
+import static net.nawaman.textj.code.formatter.RulerTwoLine.topTwoLineRuler;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
-import net.nawaman.textj.formatter.RulerTwoLine;
+import net.nawaman.textj.code.formatter.RulerTwoLine;
 
 class RulerTwoLineTest {
     

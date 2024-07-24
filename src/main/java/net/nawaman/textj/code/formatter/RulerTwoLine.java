@@ -1,4 +1,4 @@
-package net.nawaman.textj.formatter;
+package net.nawaman.textj.code.formatter;
 
 import java.util.concurrent.ConcurrentHashMap;
 
