@@ -35,8 +35,8 @@ public class Sequence extends ImmutableCharSequence {
                 .filter(s -> s.length() > 0);
         
         this.endOffsets = new SortedAbsoluteIntArray();
-        sequence
-        .map(c -> c.length())
+        this.sequence
+        .map(s -> s.length())
         .accumulate((prev, current) -> prev + current)
         .forEach(endOffsets::add);
     }
