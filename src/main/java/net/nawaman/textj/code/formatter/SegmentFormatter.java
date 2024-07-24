@@ -13,15 +13,23 @@ import net.nawaman.textj.code.Code;
  */
 public abstract class SegmentFormatter {
     
+    /** The default tab size. */
+    public static final int DEFAULT_TAB_SIZE = 4;
+    
     protected final Code   code;
     protected final String content;
     protected final int    tabSize;
     
     /** Constructs a new {@link SegmentFormatter} */
     public SegmentFormatter(Code code) {
+        this(code, -1);
+    }
+    
+    /** Constructs a new {@link SegmentFormatter} */
+    public SegmentFormatter(Code code, int tabSize) {
         this.code    = (code == null) ? new Code("") : code;
         this.content = this.code.content();
-        this.tabSize = this.code.tabSize();
+        this.tabSize = (tabSize < 0) ? DEFAULT_TAB_SIZE : max(1, tabSize);
     }
     
     /** @return  the code this segment */

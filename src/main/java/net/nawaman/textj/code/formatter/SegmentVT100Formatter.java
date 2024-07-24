@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-import functionalj.function.Func2;
+import functionalj.function.Func3;
 import functionalj.list.FuncList;
 import net.nawaman.textj.code.Code;
 
@@ -23,10 +23,10 @@ public class SegmentVT100Formatter extends SegmentFormatter {
     
     private static final String LINES = "—————————————————————————————————————————————————————————————————————————————";
     
-    public static final Func2<Code, Boolean, SegmentFormatter> segmentCreator 
-                = (code, isOneLineRuler) -> new SegmentVT100Formatter(code, isOneLineRuler != Boolean.FALSE);
+    public static final Func3<Code, Integer, Boolean, SegmentFormatter> segmentCreator 
+                = (code, tabSize, isOneLineRuler) -> new SegmentVT100Formatter(code, tabSize, isOneLineRuler != Boolean.FALSE);
                 
-    public static final Func2<Code, Boolean, SegmentFormatter> vt100SegmentCreator = segmentCreator;
+    public static final Func3<Code, Integer, Boolean, SegmentFormatter> vt100SegmentCreator = segmentCreator;
     
     private static final String           VT100_HIGHLIGHT_END    = "\u001B[0m";
     private static final FuncList<String> VT100_HIGHLIGHT_STARTS = FuncList.of(
@@ -50,11 +50,11 @@ public class SegmentVT100Formatter extends SegmentFormatter {
     private final RulerGenerator bottomRuler;
     
     public SegmentVT100Formatter(Code code) {
-        this(code, false);
+        this(code, -1, false);
     }
     
-    public SegmentVT100Formatter(Code code, boolean isOneLineRuler) {
-        super(code);
+    public SegmentVT100Formatter(Code code, int tabSize, boolean isOneLineRuler) {
+        super(code, tabSize);
         topRuler    = isOneLineRuler ? oneLineRuler : topTwoLineRuler;
         bottomRuler = isOneLineRuler ? oneLineRuler : bottomTwoLineRuler;
     }

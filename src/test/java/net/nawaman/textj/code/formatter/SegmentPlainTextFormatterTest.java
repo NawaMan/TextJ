@@ -63,7 +63,7 @@ class SegmentPlainTextFormatterTest {
     
     @Test
     void testOneRuler() {
-        formatter = new SegmentPlainTextFormatter(code, true);
+        formatter = new SegmentPlainTextFormatter(code, -1, true);
         var expected = """
                 ----|----+---10----+---20----+---30----+---40----+---50----+---60----+---70----+---80
                   1 |first line

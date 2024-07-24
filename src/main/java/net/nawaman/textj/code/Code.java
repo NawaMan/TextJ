@@ -2,7 +2,6 @@ package net.nawaman.textj.code;
 
 import static functionalj.list.intlist.IntFuncList.infinite;
 import static java.lang.Math.abs;
-import static java.lang.Math.max;
 
 import functionalj.list.FuncList;
 import functionalj.list.intlist.IntFuncList;
@@ -25,24 +24,12 @@ import net.nawaman.textj.internal.SortedAbsoluteIntArray;
  */
 public class Code {
     
-    /** The default tab size. */
-    public static final int DEFAULT_TAB_SIZE = 4;
-    
     private final String content;
-    private final int    tabSize;
     
     private final SortedAbsoluteIntArray newLines = new SortedAbsoluteIntArray();
     private int processedOffset         = 0;
     private int previousProcessedOffset = 0;
     
-    /**
-     * Constructs a new instance of code with the given content with default tabSize.
-     *
-     * @param content  The content of the code with new lines.
-     */
-    public Code(String content) {
-        this(content, DEFAULT_TAB_SIZE);
-    }
     
     /**
      * Constructs a new instance of code with the given content and tab size.
@@ -53,19 +40,13 @@ public class Code {
      * @param content  the content of the code with new lines.
      * @param tabSize  the tab size.
      */
-    public Code(String content, int tabSize) {
-        this.content = content;
-        this.tabSize = (tabSize < 0) ? DEFAULT_TAB_SIZE : max(1, tabSize);
+    public Code(String content) {
+        this.content = (content == null) ? "" : content;
     }
     
     /** @return  the content of the code. */
     public final String content() {
         return content;
-    }
-    
-    /** @return  the tab size. */
-    public final int tabSize() {
-        return tabSize;
     }
     
     /** @return  the length of the content. */

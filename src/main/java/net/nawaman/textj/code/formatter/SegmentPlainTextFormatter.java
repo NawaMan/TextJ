@@ -10,7 +10,7 @@ import static net.nawaman.textj.code.formatter.RulerTwoLine.topTwoLineRuler;
 
 import java.util.List;
 
-import functionalj.function.Func2;
+import functionalj.function.Func3;
 import net.nawaman.textj.code.Code;
 
 /**
@@ -21,21 +21,25 @@ public class SegmentPlainTextFormatter extends SegmentFormatter {
     private static final String SPACES = "                                                                            ";
     
     /** The segment creator. */
-    public static final Func2<Code, Boolean, SegmentFormatter> segmentCreator 
-                = (code, isOneLineRuler) -> new SegmentPlainTextFormatter(code, isOneLineRuler != Boolean.FALSE);
+    public static final Func3<Code, Integer, Boolean, SegmentFormatter> segmentCreator 
+                = (code, tabSize, isOneLineRuler) -> new SegmentPlainTextFormatter(code, tabSize, isOneLineRuler != Boolean.FALSE);
     
     /** The segment creator. */
-    public static final Func2<Code, Boolean, SegmentFormatter> plainTextSegmentCreator = segmentCreator;
+    public static final Func3<Code, Integer, Boolean, SegmentFormatter> plainTextSegmentCreator = segmentCreator;
                 
     private final RulerGenerator topRuler;
     private final RulerGenerator bottomRuler;
     
     public SegmentPlainTextFormatter(Code code) {
-        this(code, false);
+        this(code, -1, false);
     }
     
-    public SegmentPlainTextFormatter(Code code, boolean isOneLineRuler) {
-        super(code);
+    public SegmentPlainTextFormatter(Code code, int tabSize) {
+        this(code, tabSize, false);
+    }
+    
+    public SegmentPlainTextFormatter(Code code, int tabSize, boolean isOneLineRuler) {
+        super(code, tabSize);
         topRuler    = isOneLineRuler ? oneLineRuler : topTwoLineRuler;
         bottomRuler = isOneLineRuler ? oneLineRuler : bottomTwoLineRuler;
     }

@@ -11,7 +11,7 @@ import net.nawaman.textj.code.Code;
 
 public class SegmentFormatterTest {
     
-    private Code         code         = new Code("first line\n second line\n third line\nforth line", 4);
+    private Code         code         = new Code("first line\n second line\n third line\nforth line");
     private StringBuffer byLinesCalls = new StringBuffer();
     
     private SegmentFormatter formatter;
