@@ -1,31 +1,29 @@
-package net.nawaman.textj.code;
+package net.nawaman.textj.text;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
-
-import net.nawaman.textj.text.Text;
-import net.nawaman.textj.text.Str;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class StrTest {
     
     @Test
     void testConstructorWithNullString() {
-        Str str = new Str(null);
+        var str = new Str(null);
         assertEquals("", str.toString());
         assertEquals(0, str.length());
     }
     
     @Test
     void testConstructorWithEmptyString() {
-        Str str = new Str("");
+        var str = new Str("");
         assertEquals("", str.toString());
         assertEquals(0, str.length());
     }
     
     @Test
     void testConstructorWithNonEmptyString() {
-        Str str = new Str("Hello");
+        var str = new Str("Hello");
         assertEquals("Hello", str.toString());
         assertEquals(5, str.length());
     }
@@ -38,7 +36,7 @@ class StrTest {
     
     @Test
     void testCharAt() {
-        Str str = new Str("Hello");
+        var str = new Str("Hello");
         assertEquals('H', str.charAt(0));
         assertEquals('e', str.charAt(1));
         assertEquals('o', str.charAt(4));
@@ -46,7 +44,7 @@ class StrTest {
     
     @Test
     void testCharAtOutOfBounds() {
-        Str str = new Str("Hello");
+        var str = new Str("Hello");
         assertThrows(IndexOutOfBoundsException.class, () -> str.charAt(-1));
         assertThrows(IndexOutOfBoundsException.class, () -> str.charAt(5));
     }
@@ -60,7 +58,7 @@ class StrTest {
     
     @Test
     void testSubSequence() {
-        Str str = new Str("Hello, World!");
+        var str = new Str("Hello, World!");
         Text subSeq = str.subSequence(0, 5);
         assertEquals("Hello", subSeq.toString());
         assertEquals(5, subSeq.length());
@@ -68,7 +66,7 @@ class StrTest {
     
     @Test
     void testSubSequenceOutOfBounds() {
-        Str str = new Str("Hello");
+        var str = new Str("Hello");
         assertThrows(IllegalArgumentException.class, () -> str.subSequence(-1, 3));
         assertThrows(IllegalArgumentException.class, () -> str.subSequence(0, 6));
         assertThrows(IllegalArgumentException.class, () -> str.subSequence(3, 2));

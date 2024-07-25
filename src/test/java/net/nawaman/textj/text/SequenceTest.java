@@ -1,4 +1,4 @@
-package net.nawaman.textj.code;
+package net.nawaman.textj.text;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -6,37 +6,34 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.Test;
 
 import functionalj.list.FuncList;
-import net.nawaman.textj.text.Text;
-import net.nawaman.textj.text.Sequence;
-import net.nawaman.textj.text.Str;
 
 class SequenceTest {
     
     @Test
     void testConstructor() {
-        Sequence seq = new Sequence(new Str("Hello"), new Str(" "), new Str("World"));
+        var seq = new Sequence(new Str("Hello"), new Str(" "), new Str("World"));
         assertEquals("Hello World", seq.toString());
         
-        Sequence emptySeq = new Sequence();
+        var emptySeq = new Sequence();
         assertEquals("", emptySeq.toString());
         
-        Sequence nullArraySeq = new Sequence((Text[]) null);
+        var nullArraySeq = new Sequence((Text[]) null);
         assertEquals("", nullArraySeq.toString());
         
-        Sequence nullListSeq = new Sequence((FuncList<Text>) null);
+        var nullListSeq = new Sequence((FuncList<Text>) null);
         assertEquals("", nullListSeq.toString());
     }
     
     @Test
     void testConstructorWithFuncList() {
-        FuncList<Text> list = FuncList.of(new Str("Hello"), new Str(" "), new Str("World"));
-        Sequence seq = new Sequence(list);
+        var list = FuncList.<Text>of(new Str("Hello"), new Str(" "), new Str("World"));
+        var seq = new Sequence(list);
         assertEquals("Hello World", seq.toString());
     }
     
     @Test
     void testCharAt() {
-        Sequence seq = new Sequence(new Str("Hello"), new Str(" "), new Str("World"));
+        var seq = new Sequence(new Str("Hello"), new Str(" "), new Str("World"));
         assertEquals('H', seq.charAt(0));
         assertEquals('o', seq.charAt(4));
         assertEquals(' ', seq.charAt(5));
@@ -46,23 +43,23 @@ class SequenceTest {
     
     @Test
     void testCharAtOutOfBounds() {
-        Sequence seq = new Sequence(new Str("Hello"), new Str(" "), new Str("World"));
+        var seq = new Sequence(new Str("Hello"), new Str(" "), new Str("World"));
         assertThrows(IndexOutOfBoundsException.class, () -> seq.charAt(-1));
         assertThrows(IndexOutOfBoundsException.class, () -> seq.charAt(11));
     }
     
     @Test
     void testLength() {
-        Sequence seq = new Sequence(new Str("Hello"), new Str(" "), new Str("World"));
+        var seq = new Sequence(new Str("Hello"), new Str(" "), new Str("World"));
         assertEquals(11, seq.length());
         
-        Sequence emptySeq = new Sequence();
+        var emptySeq = new Sequence();
         assertEquals(0, emptySeq.length());
     }
     
     @Test
     void testSubSequence() {
-        Sequence seq = new Sequence(new Str("Hello"), new Str(" "), new Str("World"));
+        var seq = new Sequence(new Str("Hello"), new Str(" "), new Str("World"));
         Text subSeq = seq.subSequence(0, 5);
         assertEquals("Hello", subSeq.toString());
         
@@ -75,10 +72,10 @@ class SequenceTest {
     
     @Test
     void testToString() {
-        Sequence seq = new Sequence(new Str("Hello"), new Str(" "), new Str("World"));
+        var seq = new Sequence(new Str("Hello"), new Str(" "), new Str("World"));
         assertEquals("Hello World", seq.toString());
         
-        Sequence emptySeq = new Sequence();
+        var emptySeq = new Sequence();
         assertEquals("", emptySeq.toString());
     }
 }
