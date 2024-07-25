@@ -5,13 +5,15 @@ import static java.util.Collections.emptyList;
 import java.util.Map;
 
 import functionalj.lens.core.LensSpec;
-import functionalj.lens.lenses.ObjectLensImpl;
 import functionalj.lens.lenses.StringLens;
 import functionalj.map.FuncMap;
 import functionalj.types.Type;
 import functionalj.types.choice.generator.model.CaseParam;
 
-public class Str extends ImmutableCharSequence {
+/**
+ * A string text.
+ **/
+public final class Str extends Text {
     
     public static final Str.StrLens<Str> theStr = new Str.StrLens<>("theStr", LensSpec.of(Str.class));
     public static final Str.StrLens<Str> eachStr = theStr;
@@ -20,6 +22,9 @@ public class Str extends ImmutableCharSequence {
     
     private final String string;
     
+    /**
+     * Construct a new Str.
+     **/
     public Str(String string) {
         this.string = (string == null) ? "" : string;
     }
@@ -35,7 +40,7 @@ public class Str extends ImmutableCharSequence {
     }
     
     @Override
-    public ImmutableCharSequence subSequence(int start, int end) {
+    public Text subSequence(int start, int end) {
         return new Part(this, start, end);
     }
     
@@ -46,15 +51,18 @@ public class Str extends ImmutableCharSequence {
     
     //== Functional Choice ==
     
-    public String string() {
+    /** Returns the string content of this {@link Str} **/
+    public final String string() {
         return string;
     }
     
-    public Str withString(String string) {
+    /** Returns a new {@link Str} with the given string content. **/
+    public final Str withString(String string) {
         return new Str(string);
     }
     
-    public static class StrLens<HOST> extends ObjectLensImpl<HOST, Str> {
+    /** Returns a new {@link Str} with the given string content. **/
+    public static class StrLens<HOST> extends TextLens<HOST, Str> {
         
         public final StringLens<HOST> string = (StringLens<HOST>)createSubLens("string", Str::string, Str::withString, StringLens::of);
         
@@ -63,21 +71,24 @@ public class Str extends ImmutableCharSequence {
         }
     }
     
-    public java.util.Map<String, Object> __toMap() {
+    /** Returns the {@link Str} as a map. **/
+    public Map<String, Object> __toMap() {
         var map = new java.util.HashMap<String, Object>();
         map.put("__tagged", $utils.toMapValueObject("Str"));
         map.put("string", this.string);
         return map;
     }
     
-    static private FuncMap<String, CaseParam> __schema__ = functionalj.map.FuncMap.<String, CaseParam>newMap()
+    static private FuncMap<String, CaseParam> __schema__ = FuncMap.<String, CaseParam>newMap()
         .with("string", new CaseParam("string", new Type("java.lang", null, "String", emptyList()), false, null))
         .build();
     
+    /** Returns the schema of the @Str. **/
     public static Map<String, CaseParam> getCaseSchema() {
         return __schema__;
     }
     
+    /** Creates a new {@link Str} from the given map. **/
     public static Str caseFromMap(java.util.Map<String, ? extends Object> map) {
         return Str((String)$utils.extractPropertyFromMap(Str.class, String.class, map, __schema__, "string")
         );

@@ -9,7 +9,6 @@ import java.util.function.Function;
 import functionalj.lens.core.LensSpec;
 import functionalj.lens.core.WriteLens;
 import functionalj.lens.lenses.FuncListLens;
-import functionalj.lens.lenses.ObjectLensImpl;
 import functionalj.list.FuncList;
 import functionalj.map.FuncMap;
 import functionalj.types.Generic;
@@ -17,16 +16,16 @@ import functionalj.types.Type;
 import functionalj.types.choice.generator.model.CaseParam;
 import net.nawaman.textj.internal.SortedAbsoluteIntArray;
 
-public class Sequence extends ImmutableCharSequence {
+public final class Sequence extends Text {
     
-    private final FuncList<ImmutableCharSequence> sequence;
+    private final FuncList<Text> sequence;
     private final SortedAbsoluteIntArray          endOffsets;
     
-    public Sequence(ImmutableCharSequence ... sequence) {
+    public Sequence(Text ... sequence) {
         this((sequence == null) ? FuncList.empty() : FuncList.of(sequence));
     }
     
-    public Sequence(FuncList<ImmutableCharSequence> sequence) {
+    public Sequence(FuncList<Text> sequence) {
         this.sequence
             = (sequence == null)
             ? FuncList.empty()
@@ -75,7 +74,7 @@ public class Sequence extends ImmutableCharSequence {
     
     @Override
     public String toString() {
-        return sequence.map(ImmutableCharSequence::toString).join();
+        return sequence.map(Text::toString).join();
     }
     
     //== Functional Choice ==
@@ -83,19 +82,19 @@ public class Sequence extends ImmutableCharSequence {
     public static final Sequence.SequenceLens<Sequence> theSequence = new Sequence.SequenceLens<>("theSequence", LensSpec.of(Sequence.class));
     public static final Sequence.SequenceLens<Sequence> eachSequence = theSequence;
     
-    public FuncList<ImmutableCharSequence> sequence() {
+    public FuncList<Text> sequence() {
         return sequence;
     }
-    public Sequence withSequence(FuncList<ImmutableCharSequence> sequence) {
+    public Sequence withSequence(FuncList<Text> sequence) {
         return new Sequence(sequence);
     }
     
-    public static class SequenceLens<HOST> extends ObjectLensImpl<HOST, Sequence> {
+    public static class SequenceLens<HOST> extends TextLens<HOST, Sequence> {
         
-        public final FuncListLens<HOST, ImmutableCharSequence, ImmutableCharSequenceLens<HOST>> sequence = createSubFuncListLens(
-                (Function<Sequence, FuncList<ImmutableCharSequence>>)Sequence::sequence,
-                (WriteLens<Sequence, FuncList<ImmutableCharSequence>>)Sequence::withSequence,
-                (Function<LensSpec<HOST, ImmutableCharSequence>, ImmutableCharSequenceLens<HOST>>)(spec -> new ImmutableCharSequence.ImmutableCharSequenceLens<HOST>("sequence", spec)));
+        public final FuncListLens<HOST, Text, TextLens<HOST, Text>> sequence = createSubFuncListLens(
+                (Function<Sequence, FuncList<Text>>)Sequence::sequence,
+                (WriteLens<Sequence, FuncList<Text>>)Sequence::withSequence,
+                (Function<LensSpec<HOST, Text>, TextLens<HOST, Text>>)(spec -> new Text.TextLens<HOST, Text>("sequence", spec)));
         
         public SequenceLens(String name, LensSpec<HOST, Sequence> spec) {
             super(name, spec);
@@ -114,9 +113,9 @@ public class Sequence extends ImmutableCharSequence {
                     new Type("functionalj.list", null, "FuncList", 
                         asList(
                             new Generic(
-                                ImmutableCharSequence.class.getCanonicalName(),
-                                ImmutableCharSequence.class.getCanonicalName(),
-                                asList(new Type(null, null, ImmutableCharSequence.class.getCanonicalName(), emptyList())
+                                Text.class.getCanonicalName(),
+                                Text.class.getCanonicalName(),
+                                asList(new Type(null, null, Text.class.getCanonicalName(), emptyList())
                             )
                         )
                     )
@@ -131,7 +130,7 @@ public class Sequence extends ImmutableCharSequence {
     
     @SuppressWarnings("unchecked")
     public static Sequence caseFromMap(java.util.Map<String, ? extends Object> map) {
-        return Sequence((FuncList<ImmutableCharSequence>)$utils.extractPropertyFromMap(Sequence.class, FuncList.class, map, __schema__, "sequence")
+        return Sequence((FuncList<Text>)$utils.extractPropertyFromMap(Sequence.class, FuncList.class, map, __schema__, "sequence")
         );
     }
     

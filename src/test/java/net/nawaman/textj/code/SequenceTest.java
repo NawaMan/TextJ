@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.Test;
 
 import functionalj.list.FuncList;
-import net.nawaman.textj.text.ImmutableCharSequence;
+import net.nawaman.textj.text.Text;
 import net.nawaman.textj.text.Sequence;
 import net.nawaman.textj.text.Str;
 
@@ -20,16 +20,16 @@ class SequenceTest {
         Sequence emptySeq = new Sequence();
         assertEquals("", emptySeq.toString());
         
-        Sequence nullArraySeq = new Sequence((ImmutableCharSequence[]) null);
+        Sequence nullArraySeq = new Sequence((Text[]) null);
         assertEquals("", nullArraySeq.toString());
         
-        Sequence nullListSeq = new Sequence((FuncList<ImmutableCharSequence>) null);
+        Sequence nullListSeq = new Sequence((FuncList<Text>) null);
         assertEquals("", nullListSeq.toString());
     }
     
     @Test
     void testConstructorWithFuncList() {
-        FuncList<ImmutableCharSequence> list = FuncList.of(new Str("Hello"), new Str(" "), new Str("World"));
+        FuncList<Text> list = FuncList.of(new Str("Hello"), new Str(" "), new Str("World"));
         Sequence seq = new Sequence(list);
         assertEquals("Hello World", seq.toString());
     }
@@ -63,7 +63,7 @@ class SequenceTest {
     @Test
     void testSubSequence() {
         Sequence seq = new Sequence(new Str("Hello"), new Str(" "), new Str("World"));
-        ImmutableCharSequence subSeq = seq.subSequence(0, 5);
+        Text subSeq = seq.subSequence(0, 5);
         assertEquals("Hello", subSeq.toString());
         
         subSeq = seq.subSequence(6, 11);

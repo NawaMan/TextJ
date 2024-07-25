@@ -7,13 +7,13 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-import net.nawaman.textj.text.ImmutableCharSequence;
+import net.nawaman.textj.text.Text;
 import net.nawaman.textj.text.Part;
 import net.nawaman.textj.text.Str;
 
 class PartTest {
     
-    private final ImmutableCharSequence testSequence = new Str("Hello, World!");
+    private final Text testSequence = new Str("Hello, World!");
     
     @Test
     void testConstructorWithValidArguments() {
@@ -61,7 +61,7 @@ class PartTest {
     @Test
     void testSubSequence() {
         Part part = new Part(testSequence, 0, 13);
-        ImmutableCharSequence subSeq = part.subSequence(7, 12);
+        Text subSeq = part.subSequence(7, 12);
         assertEquals("World", subSeq.toString());
         assertEquals(5, subSeq.length());
     }

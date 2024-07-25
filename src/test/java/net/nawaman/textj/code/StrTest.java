@@ -2,7 +2,7 @@ package net.nawaman.textj.code;
 
 import org.junit.jupiter.api.Test;
 
-import net.nawaman.textj.text.ImmutableCharSequence;
+import net.nawaman.textj.text.Text;
 import net.nawaman.textj.text.Str;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -61,7 +61,7 @@ class StrTest {
     @Test
     void testSubSequence() {
         Str str = new Str("Hello, World!");
-        ImmutableCharSequence subSeq = str.subSequence(0, 5);
+        Text subSeq = str.subSequence(0, 5);
         assertEquals("Hello", subSeq.toString());
         assertEquals(5, subSeq.length());
     }

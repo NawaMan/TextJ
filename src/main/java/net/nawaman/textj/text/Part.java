@@ -2,15 +2,14 @@ package net.nawaman.textj.text;
 
 import functionalj.lens.core.LensSpec;
 import functionalj.lens.lenses.IntegerLens;
-import functionalj.lens.lenses.ObjectLensImpl;
 
-public class Part extends ImmutableCharSequence {
+public final class Part extends Text {
     
-    private final ImmutableCharSequence full;
+    private final Text full;
     private final int                   start;
     private final int                   end;
     
-    public Part(ImmutableCharSequence full, int start, int end) {
+    public Part(Text full, int start, int end) {
         this.full = (full == null) ? Str.empty : full;
         
         int fullLength = this.full.length();
@@ -69,7 +68,7 @@ public class Part extends ImmutableCharSequence {
     public static final Part.PartLens<Part> thePart = new Part.PartLens<>("thePart", LensSpec.of(Part.class));
     public static final Part.PartLens<Part> eachPart = thePart;
     
-    public ImmutableCharSequence full() {
+    public Text full() {
         return full;
     }
     
@@ -80,12 +79,12 @@ public class Part extends ImmutableCharSequence {
         return end;
     }
     
-    public Part withFull(ImmutableCharSequence full) { return new Part(full, start, end); }
+    public Part withFull(Text full) { return new Part(full, start, end); }
     public Part withStart(int start) { return new Part(full, start, end); }
     public Part withEnd(int end) { return new Part(full, start, end); }
-    public static class PartLens<HOST> extends ObjectLensImpl<HOST, Part> {
+    public static class PartLens<HOST> extends TextLens<HOST, Part> {
         
-        public final ImmutableCharSequence.ImmutableCharSequenceLens<HOST> full = (ImmutableCharSequence.ImmutableCharSequenceLens<HOST>)createSubLens("full", Part::full, Part::withFull, ImmutableCharSequence.ImmutableCharSequenceLens::new);
+        public final Text.TextLens<HOST, Text> full = (Text.TextLens<HOST, Text>)createSubLens("full", Part::full, Part::withFull, Text.TextLens::new);
         public final IntegerLens<HOST> start = createSubLensInt("start", Part::start, Part::withStart);
         public final IntegerLens<HOST> end = createSubLensInt("end", Part::end, Part::withEnd);
         
@@ -112,7 +111,7 @@ public class Part extends ImmutableCharSequence {
     }
     public static Part caseFromMap(java.util.Map<String, ? extends Object> map) {
         return Part(
-                (ImmutableCharSequence)$utils.extractPropertyFromMap(Part.class, ImmutableCharSequence.class, map, __schema__, "full"),
+                (Text)$utils.extractPropertyFromMap(Part.class, Text.class, map, __schema__, "full"),
                 (int)$utils.extractPropertyFromMap(Part.class, int.class, map, __schema__, "start"),
                 (int)$utils.extractPropertyFromMap(Part.class, int.class, map, __schema__, "end")
         );
