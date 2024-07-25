@@ -178,23 +178,8 @@ public abstract sealed class Text implements CharSequence, IChoice<Text.TextFirs
          return __switch;
     }
     
-    private volatile String toString = null;
-    
     @Override
-    public String toString() {
-        if (toString != null)
-            return toString;
-        synchronized(this) {
-            if (toString != null)
-                return toString;
-            toString = $utils.Match(this)
-                    .str(str -> "Str(" + String.format("%1$s", str.string()) + ")")
-                    .part(part -> "Part(" + String.format("%1$s,%2$s,%3$s", part.full(),part.start(),part.end()) + ")")
-                    .sequence(sequence -> "Sequence(" + String.format("%1$s", sequence.sequence()) + ")")
-            ;
-            return toString;
-        }
-    }
+    public abstract String toString();
     
     @Override
     public int hashCode() {

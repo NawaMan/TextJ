@@ -23,7 +23,7 @@ class CodeTest {
     void testContent() {
         var content = "first line\nsecond line\nthird line";
         var code    = new Code(content);
-        assertEquals(content,          code.content());
+        assertEquals(content,          code.content().toString());
         assertEquals(content.length(), code.length());
     }
     
@@ -535,7 +535,7 @@ class CodeTest {
         int count   = 5;
         var newline = "\n";
         var textShort = new Code(infinite().limit(count).mapToString().reduce((s1, s2) -> s1 + newline + s2).get());
-        assertEquals("0\n1\n2\n3\n4",   textShort.content());
+        assertEquals("0\n1\n2\n3\n4",   textShort.content().toString());
         assertEquals("[0, 1, 2, 3, 4]", textShort.lines() + "");
         assertEquals(5,                 textShort.lineCount());
         

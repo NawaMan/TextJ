@@ -28,7 +28,7 @@ public abstract class SegmentFormatter {
     /** Constructs a new {@link SegmentFormatter} */
     public SegmentFormatter(Code code, int tabSize) {
         this.code    = (code == null) ? new Code("") : code;
-        this.content = this.code.content();
+        this.content = this.code.content().toString();
         this.tabSize = (tabSize < 0) ? DEFAULT_TAB_SIZE : max(1, tabSize);
     }
     

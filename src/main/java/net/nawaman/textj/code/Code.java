@@ -6,6 +6,8 @@ import static java.lang.Math.abs;
 import functionalj.list.FuncList;
 import functionalj.list.intlist.IntFuncList;
 import net.nawaman.textj.internal.SortedAbsoluteIntArray;
+import net.nawaman.textj.text.Str;
+import net.nawaman.textj.text.Text;
 
 /**
  * This class represents a specification for code.
@@ -24,7 +26,7 @@ import net.nawaman.textj.internal.SortedAbsoluteIntArray;
  */
 public class Code {
     
-    private final String content;
+    private final Text content;
     
     private final SortedAbsoluteIntArray newLines = new SortedAbsoluteIntArray();
     private int processedOffset         = 0;
@@ -41,11 +43,11 @@ public class Code {
      * @param tabSize  the tab size.
      */
     public Code(String content) {
-        this.content = (content == null) ? "" : content;
+        this.content = (content == null) ? Str.empty : Text.Str(content);
     }
     
     /** @return  the content of the code. */
-    public final String content() {
+    public final Text content() {
         return content;
     }
     
@@ -219,7 +221,7 @@ public class Code {
         var start   = startOffset(lineNumber);
         var end     = endOffset(lineNumber);
         var content = content();
-        var line    = content.substring(start, end);
+        var line    = content.toString().substring(start, end);
         return line;
     }
     
@@ -246,7 +248,7 @@ public class Code {
             }
         }
         var content = content();
-        return content.substring(start, end);
+        return content.toString().substring(start, end);
     }
     
     /** @return  a stream of lines in the content. */
