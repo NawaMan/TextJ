@@ -26,7 +26,9 @@ import functionalj.types.choice.generator.model.CaseParam;
 /**
  * Represents a text.
  **/
-public abstract sealed class Text implements CharSequence, IChoice<Text.TextFirstSwitch>, Pipeable<Text> permits Str, Part, Sequence {
+public abstract sealed class Text 
+        implements CharSequence, IChoice<Text.TextFirstSwitch>, Pipeable<Text> 
+        permits Str, Part, Sequence {
     
     /** Create a {@link Str} instance. */
     public static final Str Str(String string) {
@@ -44,6 +46,7 @@ public abstract sealed class Text implements CharSequence, IChoice<Text.TextFirs
     }
     
     Text() {}
+    
     
     //== Functional Choice ==
     // Due to the limitation of creating lens for FuncList of Self,
@@ -67,6 +70,9 @@ public abstract sealed class Text implements CharSequence, IChoice<Text.TextFirs
         public final BooleanAccessPrimitive<Text> isPart = Text::isPart;
         /** The lens for the {@link Text#isSequence()} method. */
         public final BooleanAccessPrimitive<Text> isSequence = Text::isSequence;
+        
+        /** The lens for the {@link Text#hasExtra()} method. */
+        public final BooleanAccessPrimitive<Text> hasExtra = Text::hasExtra;
         
         /** The lens for the {@link Text#charAt()} method. */
         public CharacterAccessPrimitive<HOST> charAt(int index) {
@@ -161,11 +167,13 @@ public abstract sealed class Text implements CharSequence, IChoice<Text.TextFirs
         .with("Part", Part.getCaseSchema())
         .with("Sequence", Sequence.getCaseSchema())
         .build();
+    
     /** Returns the schema (field information) of {@link Text}. */
     public static Map<String, Map<String, CaseParam>> getChoiceSchema() {
         return __schema__;
     }
     
+    /** Returns the schema (field information) of this object. */
     public Map<String, Map<String, CaseParam>> __getSchema() {
         return getChoiceSchema();
     }
@@ -197,6 +205,41 @@ public abstract sealed class Text implements CharSequence, IChoice<Text.TextFirs
         String objToString  = obj.toString();
         String thisToString = this.toString();
         return thisToString.equals(objToString);
+    }
+    
+    //== Extra ==
+    
+    /** Returns <code>true</code> if this {@link Text} has extra data. */
+    public boolean hasExtra() {
+        return false;
+    }
+    
+    /**
+     * Run the action if it is an {@link Str}, then return this {@link Text} .
+     * 
+     * @param action the action to run if it is an {@link Str}.
+     * @return this {@link Text}
+     */
+    public Text ifExtra(Runnable action) {
+        if (hasExtra()) 
+            action.run();
+        return this;
+    }
+    
+    /** Returns a new {@link Text} with the given extra data. */
+    @SuppressWarnings("unchecked")
+    public <EXTRA> Text ifExtra(Class<EXTRA> clazz, Consumer<EXTRA> action) {
+        if (hasExtra()) 
+            action.accept((EXTRA)this);
+        return this;
+    }
+    
+    /** Returns a new {@link Text} with the given extra data. */
+    @SuppressWarnings("unchecked")
+    public <EXTRA> Text ifExtra(Consumer<EXTRA> action) {
+        if (hasExtra()) 
+            action.accept((EXTRA)this);
+        return this;
     }
     
     //== Prism methods ==
@@ -307,6 +350,120 @@ public abstract sealed class Text implements CharSequence, IChoice<Text.TextFirs
             action.run();
         return this;
     }
+    
+    /** Returns <code>true</code> if this {@link Text} is a {@link StrWithExtra}. */
+    public boolean isStrWithExtra() {
+        return this instanceof StrWithExtra;
+    }
+    
+    /** Returns {@link Text} is a {@link StrWithExtra} if it is an {@link StrWithExtra}. */
+    public <EXTRA> Result<StrWithExtra<EXTRA>> asStrWithExtra() {
+        return Result.valueOf(this)
+                .filter(StrWithExtra.class)
+                .map(StrWithExtra.class::cast);
+        
+    }
+    
+    /**
+     * Run the action if it is an {@link StrWithExtra}, then return this {@link Text} .
+     * 
+     * @param action  the action to run if it is an {@link StrWithExtra}.
+     * @return        this {@link Text}
+     */
+    @SuppressWarnings("unchecked")
+    public <EXTRA> Text ifStrWithExtra(Consumer<StrWithExtra<EXTRA>> action) {
+        if (isStrWithExtra()) 
+            action.accept((StrWithExtra<EXTRA>)this);
+        return this;
+    }
+    
+    /**
+     * Run the action if it is an {@link StrWithExtra}, then return this {@link Text} .
+     * 
+     * @param action the action to run if it is an {@link StrWithExtra}.
+     * @return this {@link Text}
+     */
+    public Text ifStrWithExtra(Runnable action) {
+        if (isStrWithExtra()) 
+            action.run();
+        return this;
+    }
+    
+    /** Returns <code>true</code> if this {@link Text} is a {@link PartWithExtra}. */
+    public boolean isPartWithExtra() {
+        return this instanceof Part;
+    }
+    
+    /** Returns {@link Text} is a {@link PartWithExtra} if it is an {@link PartWithExtra}. */
+    public <EXTRA> Result<PartWithExtra<EXTRA>> asPartWithExtra() {
+        return Result.valueOf(this)
+                .filter(PartWithExtra.class)
+                .map(PartWithExtra.class::cast);
+    }
+    
+    /**
+     * Run the action if it is an {@link PartWithExtra}, then return this {@link Text} .
+     * 
+     * @param action the action to run if it is an {@link PartWithExtra}.
+     * @return this {@link Text}
+     */
+    @SuppressWarnings("unchecked")
+    public <EXTRA> Text ifPartWithExtra(Consumer<PartWithExtra<EXTRA>> action) {
+        if (isPartWithExtra())
+            action.accept((PartWithExtra<EXTRA>)this);
+        return this;
+    }
+    
+    /**
+     * Run the action if it is an {@link Part}, then return this {@link Text} .
+     * 
+     * @param action the action to run if it is an {@link Part}.
+     * @return this {@link Text}
+     */
+    public Text ifPartWithExtra(Runnable action) {
+        if (isPartWithExtra())
+            action.run();
+        return this;
+    }
+    
+    /** Returns <code>true</code> if this {@link Text} is a {@link Sequence}. */
+    public boolean isSequenceWithExtra() {
+        return this instanceof SequenceWithExtra;
+    }
+    
+    /** Returns {@link Text} is a {@link SequenceWithExtra} if it is an {@link SequenceWithExtra}. */
+    public <EXTRA> Result<SequenceWithExtra<EXTRA>> asSequenceWithExtra() {
+        return Result.valueOf(this)
+                .filter(SequenceWithExtra.class)
+                .map(SequenceWithExtra.class::cast);
+    }
+    
+    /**
+     * Run the action if it is an {@link SequenceWithExtra}, then return this {@link Text} .
+     * 
+     * @param action the action to run if it is an {@link SequenceWithExtra}.
+     * @return this {@link Text}
+     */
+    @SuppressWarnings("unchecked")
+    public <EXTRA> Text ifSequenceWithExtra(Consumer<SequenceWithExtra<EXTRA>> action) {
+        if (isSequenceWithExtra())
+            action.accept((SequenceWithExtra<EXTRA>)this);
+        return this;
+    }
+    
+    /**
+     * Run the action if it is an {@link SequenceWithExtra}, then return this {@link Text} .
+     * 
+     * @param action the action to run if it is an {@link SequenceWithExtra}.
+     * @return this {@link Text}
+     */
+    public Text ifSequenceWithExtra(Runnable action) {
+        if (isSequenceWithExtra())
+            action.run();
+        return this;
+    }
+    
+    //== Switch methods ==
     
     /** Switch to a specific case. */
     public static class TextFirstSwitch {

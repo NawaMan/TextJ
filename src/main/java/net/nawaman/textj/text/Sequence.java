@@ -3,6 +3,7 @@ package net.nawaman.textj.text;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
@@ -16,15 +17,20 @@ import functionalj.types.Type;
 import functionalj.types.choice.generator.model.CaseParam;
 import net.nawaman.textj.internal.SortedAbsoluteIntArray;
 
-public final class Sequence extends Text {
+/**
+ * A {@link Text} that are build from a sequence of {@link Text}.
+ **/
+public sealed class Sequence extends Text permits SequenceWithExtra {
     
-    private final FuncList<Text> sequence;
-    private final SortedAbsoluteIntArray          endOffsets;
+    private final FuncList<Text>         sequence;
+    private final SortedAbsoluteIntArray endOffsets;
     
+    /** Construct a new Sequence. **/
     public Sequence(Text ... sequence) {
         this((sequence == null) ? FuncList.empty() : FuncList.of(sequence));
     }
     
+    /** Construct a new Sequence. **/
     public Sequence(FuncList<Text> sequence) {
         this.sequence
             = (sequence == null)
@@ -77,36 +83,52 @@ public final class Sequence extends Text {
         return sequence.map(Text::toString).join();
     }
     
+    //== Extra ==
+    
+    /** Returns the extra data of this {@link Sequence}. **/
+    public <E> SequenceWithExtra<E> withExtra(E extra) {
+        return new SequenceWithExtra<E>(sequence, extra);
+    }
+    
     //== Functional Choice ==
     
+    /** Returns the lens for {@ Sequence} **/
     public static final Sequence.SequenceLens<Sequence> theSequence = new Sequence.SequenceLens<>("theSequence", LensSpec.of(Sequence.class));
+    /** Returns the lens for {@ Sequence} **/
     public static final Sequence.SequenceLens<Sequence> eachSequence = theSequence;
     
+    /** Returns the sequence content of this {@link Sequence} **/
     public FuncList<Text> sequence() {
         return sequence;
     }
+    /** Returns a new {@link Sequence} with the given sequence content. **/
     public Sequence withSequence(FuncList<Text> sequence) {
         return new Sequence(sequence);
     }
     
+    /** Returns a new {@link Sequence} with the given sequence content. */
     public static class SequenceLens<HOST> extends TextLens<HOST, Sequence> {
         
+        /** The lens for the sequence content of the {@link Sequence}. */
         public final FuncListLens<HOST, Text, TextLens<HOST, Text>> sequence = createSubFuncListLens(
                 (Function<Sequence, FuncList<Text>>)Sequence::sequence,
                 (WriteLens<Sequence, FuncList<Text>>)Sequence::withSequence,
                 (Function<LensSpec<HOST, Text>, TextLens<HOST, Text>>)(spec -> new Text.TextLens<HOST, Text>("sequence", spec)));
         
+        /** Construct a new {@link SequenceLens}. */
         public SequenceLens(String name, LensSpec<HOST, Sequence> spec) {
             super(name, spec);
         }
     }
     
-    public java.util.Map<String, Object> __toMap() {
-        java.util.Map<String, Object> map = new java.util.HashMap<>();
+    /** Returns the {@link Sequence} as a map. **/
+    public Map<String, Object> __toMap() {
+        var map = new HashMap<String, Object>();
         map.put("__tagged", $utils.toMapValueObject("Sequence"));
         map.put("sequence", this.sequence);
         return map;
     }
+    
     static private FuncMap<String, CaseParam> __schema__ = FuncMap.<String, CaseParam>newMap()
         .with("sequence", 
                 new CaseParam("sequence", 
@@ -124,12 +146,14 @@ public final class Sequence extends Text {
                 null))
         .build();
     
+    /** Returns the schema of this object. */
     public static Map<String, CaseParam> getCaseSchema() {
         return __schema__;
     }
     
+    /** Constructs a new {@link Sequence} from the given map. */
     @SuppressWarnings("unchecked")
-    public static Sequence caseFromMap(java.util.Map<String, ? extends Object> map) {
+    public static Sequence caseFromMap(Map<String, ? extends Object> map) {
         return Sequence((FuncList<Text>)$utils.extractPropertyFromMap(Sequence.class, FuncList.class, map, __schema__, "sequence")
         );
     }

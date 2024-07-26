@@ -13,7 +13,7 @@ import functionalj.types.choice.generator.model.CaseParam;
 /**
  * A string text.
  **/
-public final class Str extends Text {
+public sealed class Str extends Text permits StrWithExtra {
     
     public static final Str.StrLens<Str> theStr = new Str.StrLens<>("theStr", LensSpec.of(Str.class));
     public static final Str.StrLens<Str> eachStr = theStr;
@@ -47,6 +47,13 @@ public final class Str extends Text {
     @Override
     public String toString() {
         return string;
+    }
+    
+    //== Extra ==
+    
+    /** Returns the extra data of this {@link Str}. **/
+    public <E> StrWithExtra<E> withExtra(E extra) {
+        return new StrWithExtra<E>(string, extra);
     }
     
     //== Functional Choice ==
