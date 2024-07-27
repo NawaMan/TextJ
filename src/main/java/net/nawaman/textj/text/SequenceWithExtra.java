@@ -17,4 +17,9 @@ public final class SequenceWithExtra<EXTRA> extends Sequence implements TextWith
         return extra;
     }
     
+    /** Returns a new {@link Sequence} without extra. **/
+    public Sequence removeExtra() {
+        return new Sequence(sequence());
+    }
+    
 }

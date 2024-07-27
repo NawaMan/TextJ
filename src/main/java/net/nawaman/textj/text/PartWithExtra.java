@@ -15,4 +15,9 @@ public final class PartWithExtra<EXTRA> extends Part implements TextWithExtra<EX
         return extra;
     }
     
+    /** Returns a new {@link Part} without extra. **/
+    public Part removeExtra() {
+        return new Part(full(), start(), end());
+    }
+    
 }

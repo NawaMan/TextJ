@@ -15,4 +15,9 @@ public final class StrWithExtra<EXTRA> extends Str implements TextWithExtra<EXTR
         return extra;
     }
     
+    /** Returns a new {@link Str} without extra. **/
+    public Str removeExtra() {
+        return new Str(string());
+    }
+    
 }
