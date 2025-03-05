@@ -92,9 +92,9 @@ public sealed class Sequence extends Text permits SequenceWithExtra {
     
     //== Functional Choice ==
     
-    /** Returns the lens for {@ Sequence} **/
+    /** Returns the lens for {@code Sequence} **/
     public static final Sequence.SequenceLens<Sequence> theSequence = new Sequence.SequenceLens<>("theSequence", LensSpec.of(Sequence.class));
-    /** Returns the lens for {@ Sequence} **/
+    /** Returns the lens for {@code Sequence} **/
     public static final Sequence.SequenceLens<Sequence> eachSequence = theSequence;
     
     /** Returns the sequence content of this {@link Sequence} **/

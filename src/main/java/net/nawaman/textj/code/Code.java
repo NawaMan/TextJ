@@ -40,7 +40,6 @@ public class Code {
      * If the tab size is 0, it will be set to 1.
      * 
      * @param content  the content of the code with new lines.
-     * @param tabSize  the tab size.
      */
     public Code(String content) {
         this.content = (content == null) ? Str.empty : Text.Str(content);

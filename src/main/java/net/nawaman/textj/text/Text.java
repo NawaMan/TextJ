@@ -74,7 +74,7 @@ public abstract sealed class Text
         /** The lens for the {@link Text#hasExtra()} method. */
         public final BooleanAccessPrimitive<Text> hasExtra = Text::hasExtra;
         
-        /** The lens for the {@link Text#charAt()} method. */
+        /** The lens for the {@link Text#charAt(int)} method. */
         public CharacterAccessPrimitive<HOST> charAt(int index) {
             return host -> {
                 var strValue = apply(host);
@@ -109,7 +109,7 @@ public abstract sealed class Text
             });
         }
         
-        /** The lens for the {@link Text#subSequence()} method. */
+        /** The lens for the {@link Text#subSequence(int,int)} method. */
         public StringAccess<HOST> subSequence(int start, int end) {
             return StringAccess.of(host -> {
                 if (host == null)

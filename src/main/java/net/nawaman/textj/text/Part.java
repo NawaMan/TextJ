@@ -147,7 +147,6 @@ public sealed class Part extends Text permits PartWithExtra {
         return map;
     }
     
-    /** @return  a map representation of this object. */
     static private FuncMap<String, CaseParam> __schema__ = FuncMap.<String, CaseParam>newMap()
         .with("full",  new CaseParam("full",  new Type("net.nawaman.textj.text", null, "ImmutableCharSequence", emptyList()), false, null))
         .with("start", new CaseParam("start", new Type(null, null, "int", emptyList()), false, null))
